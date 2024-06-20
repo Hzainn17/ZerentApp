@@ -49,7 +49,7 @@ import com.example.zerentapp.presentation.screen.ProfileSetting
 import com.example.zerentapp.presentation.screen.RequestScreen
 import com.example.zerentapp.presentation.screen.TokoScreen
 
-import com.example.zerentapp.presentation.screen.ResultScreen
+import com.example.zerentapp.presentation.screen.Katalog.ResultScreen
 
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
