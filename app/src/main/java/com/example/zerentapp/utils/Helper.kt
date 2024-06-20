@@ -9,6 +9,7 @@ fun String?.shouldShowBottomBar(): Boolean {
         Screen.Request.route,
         Screen.About.route,
         Screen.Order.route,
+        Screen.Detail.route,
 
     )
 }

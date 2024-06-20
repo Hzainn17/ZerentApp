@@ -35,7 +35,7 @@ import com.example.zerentapp.presentation.screen.BantuanScreen
 
 import com.example.zerentapp.presentation.screen.Check
 import com.example.zerentapp.presentation.screen.CheckScreen
-import com.example.zerentapp.presentation.screen.DetailScreen
+import com.example.zerentapp.presentation.screen.Detail.DetailScreen
 import com.example.zerentapp.presentation.screen.FiturResult
 
 import com.example.zerentapp.presentation.screen.HomeScreen
@@ -140,7 +140,7 @@ fun ZerentApp(
             ) { navBackStackEntry ->
                 DetailScreen(
                     navController = navController,
-                    detailId = navBackStackEntry.arguments?.getInt("detailId")
+                    detailId = navBackStackEntry.arguments?.getInt("detailId"),
                 )
 
             }

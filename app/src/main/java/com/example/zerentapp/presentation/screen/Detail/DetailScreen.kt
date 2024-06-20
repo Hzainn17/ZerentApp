@@ -1,6 +1,7 @@
-package com.example.zerentapp.presentation.screen
+package com.example.zerentapp.presentation.screen.Detail
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,9 +17,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarHalf
 import androidx.compose.material.icons.rounded.StarOutline
@@ -28,6 +33,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,11 +55,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.zerentapp.R
 import com.example.zerentapp.presentation.component.UlasanScreen
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
+import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
+
 
 @Composable
 fun DetailScreen(
@@ -106,13 +117,16 @@ fun RatingBar(
     detailList: List<dBarang>,
     modifier: Modifier = Modifier,
     ulasann: List<dUlasan> = Data.dataUlasan,
+    scrollState: ScrollState = rememberScrollState()
 
 ){
     var rating by remember { mutableStateOf(0.0) }
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.fillMaxWidth().height(50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
                 containerColor = Color(0xFF043C5B)
             ) {
                 Row(
@@ -132,17 +146,7 @@ fun RatingBar(
                             fontSize = 18.sp
                         )
                     }
-                    Button(
-                        onClick = { navController.navigate("check") },
-                        modifier = Modifier.size(width = 195.dp, height = 50.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF043C5B)),
-                        shape = RectangleShape
-                    ) {
-                        Text(text = "Checkout",
-                            color = Color.White,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 18.sp)
-                    }
+                    PopingButton(navController = navController)
                 }
             }
         }
@@ -150,8 +154,9 @@ fun RatingBar(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .padding(horizontal = 15.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
                 modifier = Modifier
@@ -159,6 +164,16 @@ fun RatingBar(
                     .padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
+                Row {
+                    IconButton(onClick = {navController.navigate(Screen.Home.route)}) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIos,
+                            contentDescription = stringResource(id = R.string.menu_back)
+                        )
+                    }
+                    HeaderDetail()
+                }
+
                 Box(
                     modifier = Modifier,
                     contentAlignment = Alignment.Center

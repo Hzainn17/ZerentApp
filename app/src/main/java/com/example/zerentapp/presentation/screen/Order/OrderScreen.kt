@@ -85,7 +85,11 @@ fun StatusScreen(status: MutableState<Status>) {
 
     }
 
-    OrderSearch()
+
+
+        OrderSearch()
+
+
 
 
     Column(
