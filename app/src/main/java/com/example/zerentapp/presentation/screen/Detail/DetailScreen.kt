@@ -64,6 +64,8 @@ import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.screen.Detail.Detail
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
 
@@ -182,7 +184,8 @@ fun DetailCard(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
@@ -240,12 +243,13 @@ fun DetailCard(
                     fontSize = 15.sp
                 )
 
-            item {
+//            item {
                 // Ulasan
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
+//                        .padding(horizontal = 15.dp)
+                    ,
                     elevation = CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(Color.White)
                 ) {
@@ -301,14 +305,17 @@ fun DetailCard(
 
                     }
                 }
-            }
+                Spacer(modifier = Modifier.height(5.dp))
+//            }
         }
         }
+
     }
-
-
-@Preview(showBackground = true)
-@Composable
-private fun DetailScreenPreview(){
-    DetailCard(navController = NavController(LocalContext.current), detailList = Data.dataBarang)
 }
+
+
+//@Preview(showBackground = true)
+//@Composable
+//private fun DetailScreenPreview(){
+//    DetailCard(navController = NavController(LocalContext.current), detailList = Data.dataBarang)
+//}

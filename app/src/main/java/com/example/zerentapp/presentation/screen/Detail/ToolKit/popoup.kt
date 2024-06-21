@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,12 +16,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAlarm
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Discount
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
@@ -136,50 +144,107 @@ fun PopingButton(
                     Column (
                         modifier = Modifier,
                     ){
+                            Row {
+                                Icon(
+                                    imageVector = Icons.Default.LocationOn,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    modifier = Modifier
+                                        .padding(vertical = 4.dp),
+                                    text = "Temoyang, Bulang")
+                            }
 
-                        Text(
-                            modifier = Modifier
-                                .padding(vertical = 4.dp),
-                            text = "Temoyang, Bulang")
                         Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth()
+
+                        Row (
+                            modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(
-                                onClick = { if (hari > 0) hari-- }, // Decrement value, ensure it doesn't go below 0
-                                modifier = Modifier.padding(end = 8.dp)
-                            ) {
-                                Text(text = "-")
-                            }
-                            Text(
-                                modifier = Modifier.padding(vertical = 4.dp),
-                                text = hari.toString()
+                            Icon(
+                                imageVector = Icons.Default.AddAlarm,
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
                             )
-                            Button(
-                                onClick = { hari++ }, // Increment value
-                                modifier = Modifier.padding(start = 8.dp)
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+//                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                ,
                             ) {
-                                Text(text = "+")
+                                Button(
+                                    onClick = { if (hari > 0) hari-- }, // Decrement value, ensure it doesn't go below 0
+                                    modifier = Modifier
+                                        .size(20.dp)
+//                                        .padding(end = 8.dp)
+                                    ,
+                                    shape = CircleShape,
+                                    contentPadding = PaddingValues(0.dp)
+                                ) {
+                                    Text(text = "-")
+                                }
+                                Text(
+                                    modifier = Modifier.padding(vertical = 4.dp)
+                                        .padding(horizontal = 15.dp)
+                                    ,
+                                    text = hari.toString()
+                                )
+                                Button(
+                                    onClick = { hari++ }, // Increment value
+                                    modifier = Modifier
+                                        .size(20.dp)
+//                                        .padding(end = 8.dp)
+                                    ,
+                                    shape = CircleShape,
+                                    contentPadding = PaddingValues(0.dp)
+                                ) {
+                                    Text(text = "+")
+                                }
                             }
+                        }
+
+
+                        Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp))
+
+                        Row {
+                            Icon(
+                                imageVector = Icons.Default.CalendarMonth,
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Text(
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp),
+                                text = "11/11/2024 - 12/12/2025")
                         }
                         Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .padding(vertical = 4.dp),
-                            text = "11/11/2024 - 12/12/2025")
-                        Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .padding(vertical = 4.dp),
-                            text = "Rp.123.000")
+
+                        Row {
+                            Icon(imageVector = Icons.Default.Discount,
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp))
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Text(
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp),
+                                text = "Rp.123.000")
+                        }
                         Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp))
