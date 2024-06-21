@@ -1,6 +1,7 @@
 package com.example.zerentapp.presentation.screen.Detail.ToolKit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,20 +39,57 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.screen.Detail.Detail
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
+import com.example.zerentapp.presentation.screen.Detail.Rental
+import androidx.compose.ui.text.input.TextFieldValue
 import kotlinx.coroutines.delay
-
-
+import java.util.Date
 
 
 @Composable
-fun PopingButton(navController: NavController, showPopupInitially: Boolean = false) {
+fun PopingButton(
+    detail: Detail,
+    navController: NavController,
+    showPopupInitially: Boolean = false,
+    onPostRental: (Rental) -> Unit,
+    viewModel: DetailViewModel = hiltViewModel(),
+) {
 //    var showPop by remember { mutableStateOf(false) }
     var showPop by remember { mutableStateOf(showPopupInitially) }
     val garis = Color(android.graphics.Color.parseColor("#323232"))
+    var hari by remember { mutableStateOf(1) }
 
+    var productName by remember { mutableStateOf("") }
+    var productHarga by remember { mutableStateOf("") }
+    var productImage by remember { mutableStateOf("") }
+    var productStatus by remember { mutableStateOf("") }
+    var rentalEndDate by remember { mutableStateOf("") }
+    var rentalStartDate by remember { mutableStateOf("") }
+    var userId by remember { mutableStateOf("") }
+    var rentalStatus by remember { mutableStateOf("") }
+    var quantity by remember { mutableStateOf("") }
+    var rentalDuration by remember { mutableStateOf("") }
+
+    val handlePostRental = {
+        val (rentalStartDate, rentalEndDate) = viewModel.calculateRentalDates(hari)
+        val rental = Rental(
+            productName = detail.productName,
+            productHarga = detail.productHarga,
+            productImage = detail.productImage,
+            rentalEndDate = rentalEndDate,
+            rentalStartDate = rentalStartDate,
+            userId = "uR5Fv63aBSXzurFH5K9i9pvZDs13",
+            rentalStatus = "pending",
+            rentedAt = Date(),
+            quantity = 1,
+            rentalDuration = hari,
+        )
+        onPostRental(rental)}
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,10 +144,28 @@ fun PopingButton(navController: NavController, showPopupInitially: Boolean = fal
                         Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp))
-                        Text(
-                            modifier = Modifier
-                                .padding(vertical = 4.dp),
-                            text = "1")
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Button(
+                                onClick = { if (hari > 0) hari-- }, // Decrement value, ensure it doesn't go below 0
+                                modifier = Modifier.padding(end = 8.dp)
+                            ) {
+                                Text(text = "-")
+                            }
+                            Text(
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                text = hari.toString()
+                            )
+                            Button(
+                                onClick = { hari++ }, // Increment value
+                                modifier = Modifier.padding(start = 8.dp)
+                            ) {
+                                Text(text = "+")
+                            }
+                        }
                         Divider(color = garis, thickness = 0.9.dp, modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp))
@@ -143,6 +199,7 @@ fun PopingButton(navController: NavController, showPopupInitially: Boolean = fal
                         onClick = {
                             showPop = false
                             navController.navigate("check")
+                            handlePostRental()
                         }
                     ) {
                         Text("Pesan")
@@ -177,9 +234,9 @@ fun PopingButton(navController: NavController, showPopupInitially: Boolean = fal
 //    PopingButton(navController)
 //}
 
-@Preview(showBackground = true)
-@Composable
-fun PopingButtonWithPopupPreview() {
-    val navController = rememberNavController()
-    PopingButton(navController, showPopupInitially = true)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PopingButtonWithPopupPreview() {
+//    val navController = rememberNavController()
+//    PopingButton(navController, showPopupInitially = true)
+//}

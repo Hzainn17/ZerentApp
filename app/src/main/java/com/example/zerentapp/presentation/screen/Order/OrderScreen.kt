@@ -82,16 +82,8 @@ fun StatusScreen(status: MutableState<Status>) {
         .clip(RoundedCornerShape(5.dp))
         .background(color = biggaris)
     ) {
-
     }
-
-
-
         OrderSearch()
-
-
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()

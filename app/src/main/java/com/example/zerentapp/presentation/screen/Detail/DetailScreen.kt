@@ -37,6 +37,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -67,13 +69,25 @@ import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
 
 @Composable
 fun DetailScreen(
+    viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
     detailId: Int?
+
 ){
+    val products by viewModel.products.collectAsState()
+
+
     val detailList: List<dBarang> = Data.dataBarang.filter { id ->
         id.id == detailId
     }
-    DetailCard(navController = navController, detailList = detailList)
+    val detail = products.firstOrNull()
+
+    detail?.let {
+        DetailCard(navController = navController, detailList = detailList, detail = it)
+    } ?: run {
+        // Display a loading indicator or error message
+        Text(text = "Loading...", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
+    }
 }
 
 
@@ -113,14 +127,16 @@ fun RatingBar(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
  fun DetailCard(
+    detail: Detail,
     navController: NavController,
     detailList: List<dBarang>,
     modifier: Modifier = Modifier,
     ulasann: List<dUlasan> = Data.dataUlasan,
-    scrollState: ScrollState = rememberScrollState()
-
+    scrollState: ScrollState = rememberScrollState(),
+    viewModel: DetailViewModel = hiltViewModel(),
 ){
     var rating by remember { mutableStateOf(0.0) }
+    //val viewModel: DetailViewModel = hiltViewModel()
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -146,7 +162,19 @@ fun RatingBar(
                             fontSize = 18.sp
                         )
                     }
-                    PopingButton(navController = navController)
+                    PopingButton(
+                        detail,
+                        navController = navController,
+                        onPostRental = { rental ->
+                        viewModel.postRental(rental,
+                            onSuccess = {
+                                // Handle success
+                            },
+                            onError = { error ->
+                                // Handle error
+                            }
+                        )
+                    } )
                 }
             }
         }
@@ -173,7 +201,6 @@ fun RatingBar(
                     }
                     HeaderDetail()
                 }
-
                 Box(
                     modifier = Modifier,
                     contentAlignment = Alignment.Center
@@ -190,14 +217,14 @@ fun RatingBar(
 
                 //Detail
                 Text(
-                    text = detailList[0].nama,
+                    text = detail.productName,
                     modifier = Modifier,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Rp"+detailList[0].harga,
+                    text = "Rp"+detail.productHarga,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
@@ -210,7 +237,7 @@ fun RatingBar(
                 }
                 Text(
                     modifier = Modifier,
-                    text = detailList[0].detail,
+                    text = detail.productDesc,
                     fontSize = 15.sp
                 )
 
@@ -266,8 +293,6 @@ fun RatingBar(
                                 }
                             }
                         }
-
-
                     }
                 }
             }
@@ -276,8 +301,8 @@ fun RatingBar(
     }
 
 
-@Preview(showBackground = true)
-@Composable
-private fun DetailScreenPreview(){
-    DetailCard(navController = NavController(LocalContext.current), detailList = Data.dataBarang)
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun DetailScreenPreview(){
+//    DetailCard(navController = NavController(LocalContext.current), detailList = Data.dataBarang)
+//}
