@@ -120,7 +120,9 @@ fun ProfileScreen(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(10.dp)
+                                    .padding(10.dp) ,
+                                verticalAlignment = Alignment.CenterVertically
+
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_profile_setting),
@@ -147,17 +149,14 @@ fun ProfileScreen(
                         }
 
 
-
-
-
-
                         Box(modifier = Modifier.fillMaxWidth()
                             .clickable { navController.navigate("toko") }
                         ) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(10.dp)
+                                    .padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_store_setting),
@@ -196,7 +195,8 @@ fun ProfileScreen(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(10.dp)
+                                    .padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_help),

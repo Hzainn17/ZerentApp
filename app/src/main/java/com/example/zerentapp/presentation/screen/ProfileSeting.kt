@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,11 +64,21 @@ fun ProfileSetting(navController: NavController,
                 .fillMaxSize()){
 
             item{
-                Icon(imageVector = Icons.Default.ArrowBackIos,
-                    contentDescription = null,
-                    modifier.size(28.dp))
+                Row (
+                    modifier = Modifier,
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Icon(imageVector = Icons.Default.ArrowBackIos,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { navController.navigateUp() }
+                        ,
+                    )
 
-                Text(text = "Informasi Pribadi", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Informasi Pribadi", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                }
 
                 Spacer(modifier = Modifier.height(40.dp))
                 Row (

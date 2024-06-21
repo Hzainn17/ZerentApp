@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,16 +35,30 @@ fun KategoriScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier.width(360.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        com.example.zerentapp.presentation.component.SearchBar(
-                            navController = navController,
-                            modifier = Modifier.padding(
-                                16.dp
-                            )
+                    Row (
+                        modifier = Modifier,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(imageVector = Icons.Default.ArrowBackIos,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .clickable { navController.navigateUp() }
+                            ,
+                            tint = Color.White
                         )
+
+                        Box(
+                            modifier = Modifier.width(360.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            com.example.zerentapp.presentation.component.SearchBar(
+                                navController = navController,
+                                modifier = Modifier.padding(
+                                    16.dp
+                                )
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -216,7 +232,7 @@ fun KategoriScreen(
                             Text(
                                 "Pakaian",
                                 modifier = Modifier
-                                    .wrapContentSize() 
+                                    .wrapContentSize()
                                     .align(Alignment.Center),
                                 color = Color.Black
                             )

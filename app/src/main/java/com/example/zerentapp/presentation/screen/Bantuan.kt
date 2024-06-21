@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -51,10 +52,16 @@ fun BantuanScreen(navController: NavController,
         {
             item {
 
-                Row (modifier.fillMaxWidth()){
+                Row (
+                    modifier.fillMaxWidth()
+                ){
                     Icon(imageVector = Icons.Default.ArrowBackIos,
                         contentDescription = null,
-                        modifier.size(28.dp))
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { navController.navigateUp() }
+                        ,
+                    )
                     Spacer(modifier = Modifier.width(20.dp))
                     Text(text = "Bantuan", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 }
@@ -71,128 +78,218 @@ fun BantuanScreen(navController: NavController,
 
 
                 Spacer(modifier = Modifier.height(40.dp))
-                Row (modifier = Modifier
-                    .padding(8.dp)
-                    .height(40.dp)
-                    .border(
-                        border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
-                    )
-                    .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
 
-                ){
-                        Icon(imageVector = Icons.Default.Person, contentDescription = null)
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "tentang Akun saya")
-                    Spacer(modifier = Modifier.width(153.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row (modifier = Modifier
+                        .padding(8.dp)
+                        .height(40.dp)
+                        .border(
+                            border = BorderStroke(1.dp, Color.Black),
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .fillMaxWidth()
+                        ,
+                        verticalAlignment = Alignment.CenterVertically,)
+
+                    {
+
+                        Row (
+                            modifier = Modifier
+                                .padding(start = 10.dp),
+                        ){
+                            Icon(imageVector = Icons.Default.Person, contentDescription = null)
+                        }
+                        Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween)
+                        {
+//                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(text = "Tentang Akun saya")
+//                        Spacer(modifier = Modifier.width(153.dp))
+                            Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                        }
                     }
 
+
                 Spacer(modifier = Modifier.height(25.dp))
+
                 Row (modifier = Modifier
                     .padding(8.dp)
                     .height(40.dp)
                     .border(
                         border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
+                        shape = RoundedCornerShape(5.dp)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
 
                 ){
-                    Icon(painter = painterResource(id = R.drawable.ic_get_cash),
-                        contentDescription = null,
-                        modifier = Modifier.size(23.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Masalah pada pembayaran")
-                    Spacer(modifier = Modifier.width(100.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row (
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.ic_get_cash),
+                            contentDescription = null,
+                            modifier = Modifier.size(23.dp))
+                    }
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+//                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(text = "Masalah pada pembayaran")
+                        Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    }
+
                 }
 
                 Spacer(modifier = Modifier.height(25.dp))
+
                 Row (modifier = Modifier
                     .padding(8.dp)
                     .height(40.dp)
                     .border(
                         border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
+                        shape = RoundedCornerShape(5.dp)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
 
                 ){
-                    Icon(painter = painterResource(id = R.drawable.ic_services),
-                        contentDescription = null,
-                        modifier = Modifier.size(23.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Masalah pada aplikasi")
-                    Spacer(modifier = Modifier.width(129.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row (
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.ic_services),
+                            contentDescription = null,
+                            modifier = Modifier.size(23.dp))
+                    }
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+
+                        Text(text = "Masalah pada aplikasi")
+//                        Spacer(modifier = Modifier.width(129.dp))
+                        Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    }
                 }
 
 
                 Spacer(modifier = Modifier.height(25.dp))
+
                 Row (modifier = Modifier
                     .padding(8.dp)
                     .height(40.dp)
                     .border(
                         border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
+                        shape = RoundedCornerShape(5.dp)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
-
                 ){
-                    Icon(painter = painterResource(id = R.drawable.ic_exchange),
-                        contentDescription = null,
-                        modifier = Modifier.size(23.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Program saldo kembali")
-                    Spacer(modifier = Modifier.width(125.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row (
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.ic_exchange),
+                            contentDescription = null,
+                            modifier = Modifier.size(23.dp))
+
+                    }
+
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(text = "Program saldo kembali")
+                        Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    }
+
                 }
 
                 Spacer(modifier = Modifier.height(25.dp))
+
                 Row (modifier = Modifier
                     .padding(8.dp)
                     .height(40.dp)
                     .border(
                         border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
+                        shape = RoundedCornerShape(5.dp)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
 
                 ){
-                    Icon(painter = painterResource(id = R.drawable.ic_warning_shield),
-                        contentDescription = null,
-                        modifier = Modifier.size(23.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Informasi palsu")
-                    Spacer(modifier = Modifier.width(171.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row (
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.ic_warning_shield),
+                            contentDescription = null,
+                            modifier = Modifier.size(23.dp))
+
+                    }
+                    
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(text = "Informasi palsu")
+                        Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(25.dp))
+
                 Row (modifier = Modifier
                     .padding(8.dp)
                     .height(40.dp)
                     .border(
                         border = BorderStroke(1.dp, Color.Black),
-                        shape = RoundedCornerShape(1.dp)
+                        shape = RoundedCornerShape(5.dp)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
 
                 ){
-                    Icon(painter = painterResource(id = R.drawable.ic_warning_shield),
-                        contentDescription = null,
-                        modifier = Modifier.size(23.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Keamanan dan keadaan darurat")
-                    Spacer(modifier = Modifier.width(72.dp))
-                    Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    Row(
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.ic_warning_shield),
+                            contentDescription = null,
+                            modifier = Modifier.size(23.dp))
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(text = "Keamanan dan keadaan darurat")
+                        Icon(imageVector = Icons.Default.ArrowForwardIos, contentDescription = null)
+                    }
                 }
 
 
@@ -206,14 +303,15 @@ fun BantuanScreen(navController: NavController,
                         .width(130.dp)
                         .border(
                             border = BorderStroke(1.dp, Color.Black),
-                            shape = RoundedCornerShape(1.dp)
+                            shape = RoundedCornerShape(5.dp)
                         )
                     , verticalAlignment = Alignment.CenterVertically,
                         ){
                         Icon(painter = painterResource(id = R.drawable.ic_information),
                             contentDescription = null,
                             modifier = Modifier.size(23.dp))
-                        Spacer(modifier = Modifier.size(8.dp)
+                        Spacer(modifier = Modifier
+                            .size(8.dp)
                             .padding(start = 5.dp))
                         Text(text = "informasi umum")
 
@@ -223,12 +321,13 @@ fun BantuanScreen(navController: NavController,
                         .width(130.dp)
                         .border(
                             border = BorderStroke(1.dp, Color.Black),
-                            shape = RoundedCornerShape(1.dp)
+                            shape = RoundedCornerShape(5.dp)
                         )
                         , verticalAlignment = Alignment.CenterVertically){
                         Icon(painter = painterResource(id = R.drawable.ic_more),
                             contentDescription = null,
-                            modifier = Modifier.size(23.dp)
+                            modifier = Modifier
+                                .size(23.dp)
                                 .padding(start = 5.dp))
                         Spacer(modifier = Modifier.size(38.dp))
                         Text(text = "Lainnya")
