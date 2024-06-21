@@ -44,7 +44,7 @@ import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
 import com.example.zerentapp.presentation.screen.PostingProductScreen
-import com.example.zerentapp.presentation.screen.ProfileScreen
+import com.example.zerentapp.presentation.screen.Profil.ProfileScreen
 
 import com.example.zerentapp.presentation.screen.ProfileSetting
 import com.example.zerentapp.presentation.screen.Request2Screen

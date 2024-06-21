@@ -109,4 +109,8 @@ dependencies {
 
     //Date
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
+
+    //sharedpreference
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.1")
 }

@@ -1,7 +1,9 @@
 package com.example.zerentapp.di
 
+import android.content.Context
 import com.example.zerentapp.data.Firebase.AuthRepository
 import com.example.zerentapp.data.Firebase.AuthRepositoryImpl
+import com.example.zerentapp.data.sharedPref.SharedPreferencesManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -28,5 +30,11 @@ object AppModule {
     @Singleton
     fun provideFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesManager(context: Context): SharedPreferencesManager {
+        return SharedPreferencesManager(context)
     }
 }
