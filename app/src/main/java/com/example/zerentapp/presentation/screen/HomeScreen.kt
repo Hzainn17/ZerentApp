@@ -52,6 +52,7 @@ import com.example.zerentapp.ui.theme.color1
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.Navigation
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.presentation.component.ProductCard
 import com.example.zerentapp.ui.theme.poppinsFontFamily
@@ -132,7 +133,9 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable { navController.navigate("Kategori")}
+                    ,
                 ) {
                     Text(
                         text = "Kategori",
@@ -172,6 +175,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .background(color = Color(0xFF043C5B))
                                 .border(1.dp, Color.White)
+                                .clickable { navController.navigate("Kategori")}
                         ) {
                             Text(
                                 "Hobi", // Text content
@@ -189,6 +193,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .background(color = Color(0xFF043C5B))
                                 .border(1.dp, Color.White)
+                                .clickable { navController.navigate("Kategori")}
                         ) {
                             Text(
                                 "Kendaraan",
@@ -209,6 +214,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .background(color = Color(0xFF043C5B))
                                 .border(1.dp, Color.White)
+                                .clickable { navController.navigate("Kategori")}
                         ) {
                             Text(
                                 "Pakaian",
@@ -226,6 +232,7 @@ fun HomeScreen(
                                 .weight(1f)
                                 .background(color = Color(0xFF043C5B))
                                 .border(1.dp, Color.White)
+                                .clickable { navController.navigate("Kategori")}
                         ) {
                             Text(
                                 "Peralatan",

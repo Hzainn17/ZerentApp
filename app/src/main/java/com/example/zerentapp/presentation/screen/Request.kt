@@ -93,9 +93,11 @@ fun RequestScreen(
             }
 
             CircularButtonWithIcon(
+                navController = navController,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
+                    .clickable { navController.navigate("Request2") }
             )
         }
     }
@@ -254,12 +256,15 @@ fun RequestCard(
 }
 
 @Composable
-fun CircularButtonWithIcon(modifier: Modifier = Modifier) {
+fun CircularButtonWithIcon(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+) {
     FloatingActionButton(
-        onClick = { /* TODO */ },
+        onClick = {navController.navigate("Request2")},
         containerColor = Color(0xffFEBD16),
         contentColor = Color.White,
-        modifier = modifier.size(56.dp)
+        modifier = modifier.size(56.dp),
     ) {
         Icon(
             imageVector = Icons.Default.Add,
