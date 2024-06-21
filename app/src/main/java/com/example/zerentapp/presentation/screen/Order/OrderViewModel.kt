@@ -34,7 +34,7 @@ class OrderViewModel @Inject constructor(
 //        fetchProducts()
 //    }
 
-    private fun fetchProducts() {
+    private fun fetchRentals() {
         viewModelScope.launch {
             firestore.collection("rentals").get()
                 .addOnSuccessListener { result ->

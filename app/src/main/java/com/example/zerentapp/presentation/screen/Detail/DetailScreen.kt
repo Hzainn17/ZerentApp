@@ -1,6 +1,7 @@
 package com.example.zerentapp.presentation.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,9 +18,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarHalf
 import androidx.compose.material.icons.rounded.StarOutline
@@ -29,9 +34,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,29 +48,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.zerentapp.R
 import com.example.zerentapp.presentation.component.UlasanScreen
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
+import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
+
 
 @Composable
 fun DetailScreen(
+    viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
     detailId: Int?
+
 ){
+    val products by viewModel.products.collectAsState()
+
+
     val detailList: List<dBarang> = Data.dataBarang.filter { id ->
         id.id == detailId
     }
-    DetailCard(navController = navController, detailList = detailList)
+    val detail = products.firstOrNull()
+
+    detail?.let {
+        DetailCard(navController = navController, detailList = detailList, detail = it)
+    } ?: run {
+        // Display a loading indicator or error message
+        Text(text = "Loading...", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
+    }
 }
 
 
@@ -103,13 +128,14 @@ fun RatingBar(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailCard(
+    detail: Detail,
     navController: NavController,
     detailList: List<dBarang>,
     modifier: Modifier = Modifier,
     ulasann: List<dUlasan> = Data.dataUlasan,
-) {
+    scrollState: ScrollState = rememberScrollState(),
+    viewModel: DetailViewModel = hiltViewModel(),) {
     var rating by remember { mutableStateOf(0.0) }
-
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -135,77 +161,84 @@ fun DetailCard(
                             fontSize = 18.sp
                         )
                     }
-                    Button(
-                        onClick = { navController.navigate("check") },
-                        modifier = Modifier.size(width = 195.dp, height = 50.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF043C5B)),
-                        shape = RectangleShape
-                    ) {
-                        Text(
-                            text = "Checkout",
-                            color = Color.White,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 18.sp
+                    PopingButton(
+                        detail,
+                        navController = navController,
+                        onPostRental = { rental ->
+                        viewModel.postRental(rental,
+                            onSuccess = {
+                                // Handle success
+                            },
+                            onError = { error ->
+                                // Handle error
+                            }
                         )
-                    }
+                    } )
                 }
             }
         }
     ) {
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .padding(horizontal = 15.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
-                ) {
-                    Box(
-                        modifier = Modifier,
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .size(width = 400.dp, height = 300.dp),
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(data = detailList[0].foto)
-                                .build(),
-                            contentDescription = "Foto Barang"
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 15.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Row {
+                    IconButton(onClick = {navController.navigate(Screen.Home.route)}) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIos,
+                            contentDescription = stringResource(id = R.string.menu_back)
                         )
                     }
-
-                    // Detail
-                    Text(
-                        text = detailList[0].nama,
-                        modifier = Modifier,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Rp" + detailList[0].harga,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-
-                    Row(
+                    HeaderDetail()
+                }
+                Box(
+                    modifier = Modifier,
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
                         modifier = Modifier
-                    ) {
-                        Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
-                        Text(modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
-                    }
-                    Text(
-                        modifier = Modifier,
-                        text = detailList[0].detail,
-                        fontSize = 15.sp
+                            .size(width = 400.dp, height = 300.dp),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(data = detailList[0].foto)
+                            .build(),
+                        contentDescription = "Foto Barang"
                     )
                 }
-            }
+
+                //Detail
+                Text(
+                    text = detail.productName,
+                    modifier = Modifier,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Rp"+detail.productHarga,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+
+                Row (
+                    modifier = Modifier
+                ){
+                    Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                    Text( modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
+                }
+                Text(
+                    modifier = Modifier,
+                    text = detail.productDesc,
+                    fontSize = 15.sp
+                )
 
             item {
                 // Ulasan
@@ -259,21 +292,20 @@ fun DetailCard(
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            items(ulasann, key = { it.id }) { ulasan ->
-                                UlasanScreen(ulasan = ulasan) {
-                                    // Handle ulasan click
+                            items(ulasann, key = { it.id }) {
+                                UlasanScreen(ulasan = it) {
                                 }
                             }
                         }
+
+
                     }
                 }
             }
-            item {
-                Spacer(modifier = Modifier.height(26.dp))
-            }
+        }
         }
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable

@@ -11,6 +11,7 @@ import coil.util.DebugLogger
 import com.example.zerentapp.presentation.ZerentApp
 
 import com.example.zerentapp.ui.theme.ZerentAppTheme
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidThreeTen.init(this)
         Coil.setImageLoader(
             ImageLoader.Builder(this)
                 .logger(DebugLogger(Log.VERBOSE))
