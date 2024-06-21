@@ -124,20 +124,20 @@ object Data {
     )
     val sampleStatus = listOf(
         Status(
-            "Belum Bayar", listOf(
+            "selesai", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang")
             )
         ),
         Status(
-            "Di Proses", listOf(
+            "pending", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img, R.drawable.nora,"Serba Ada","Bayar Sekarang")
             )
         ),
         Status(
-            "Digunakan", listOf(
+            "digunakan", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas", "150.000",2,R.drawable.img, R.drawable.nora, "Serba Ada","Bayar Sekarang")
             )
         ),
@@ -152,7 +152,7 @@ object Data {
             )
         ),
         Status(
-            "Selesai", listOf(
+            "selesai1", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang")

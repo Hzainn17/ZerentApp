@@ -90,7 +90,7 @@ dependencies {
 
 
     implementation("io.coil-kt:coil-compose:2.6.0")
-
+    implementation ("io.coil-kt:coil-svg:2.1.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
     //hilt
@@ -106,4 +106,7 @@ dependencies {
     //firestore
     implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+    //Date
+    implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
 }

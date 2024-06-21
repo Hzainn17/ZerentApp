@@ -39,9 +39,9 @@ fun OrderSearch() {
     SearchBar(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top= 10.dp)
-            .padding(start = if (active)  0.dp else 25.dp, end = if (active) 0.dp else 25.dp)
             .offset(y = if (active) 1.dp else 125.dp,)
+            .padding(start = if (active)  0.dp else 25.dp, end = if (active) 0.dp else 25.dp)
+
 
         ,
         query = query,
