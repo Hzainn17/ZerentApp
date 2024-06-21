@@ -79,7 +79,7 @@ fun UlasanScreen(
 
     Column(
         modifier = Modifier
-            .size(width = 150.dp, height = 300.dp)
+            .size(width = 150.dp, height = 220.dp)
             .border(width = 1.dp, Color.Black, shape = RoundedCornerShape(7.dp))
             ,
     ) {

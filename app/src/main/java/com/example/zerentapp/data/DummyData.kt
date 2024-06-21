@@ -26,7 +26,7 @@ object DummyData {
             title = "Selamat Datang",
             description = "Ayo, temukan barang keperluanmu disini " +
                     "Kualitas Tanpa Kepemilikan, Nikmati dengan Sewa",
-            image = R.drawable.onboarding4
+            image = R.drawable.logofix
         ),
     )
 }

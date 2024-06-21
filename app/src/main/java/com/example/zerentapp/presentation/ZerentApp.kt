@@ -35,10 +35,11 @@ import com.example.zerentapp.presentation.screen.BantuanScreen
 
 import com.example.zerentapp.presentation.screen.Check
 import com.example.zerentapp.presentation.screen.CheckScreen
-import com.example.zerentapp.presentation.screen.Detail.DetailScreen
+import com.example.zerentapp.presentation.screen.DetailScreen
 import com.example.zerentapp.presentation.screen.FiturResult
 
 import com.example.zerentapp.presentation.screen.HomeScreen
+import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
@@ -46,6 +47,7 @@ import com.example.zerentapp.presentation.screen.PostingProductScreen
 import com.example.zerentapp.presentation.screen.ProfileScreen
 
 import com.example.zerentapp.presentation.screen.ProfileSetting
+import com.example.zerentapp.presentation.screen.Request2Screen
 import com.example.zerentapp.presentation.screen.RequestScreen
 import com.example.zerentapp.presentation.screen.TokoScreen
 
@@ -53,6 +55,7 @@ import com.example.zerentapp.presentation.screen.Katalog.ResultScreen
 
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
+import com.example.zerentapp.presentation.screen.doneUploadScreens
 import com.example.zerentapp.utils.shouldShowBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -134,6 +137,15 @@ fun ZerentApp(
             }
             composable(Screen.Done.route){
                 Check(navController)
+            }
+            composable(Screen.Kategori.route){
+                KategoriScreen(navController)
+            }
+            composable(Screen.DoneUp.route){
+                doneUploadScreens(navController)
+            }
+            composable(Screen.Request2.route){
+                Request2Screen(navController)
             }
             composable(Screen.Detail.route + "/{detailId}",
                 arguments = listOf(navArgument("detailId") { type = NavType.IntType })

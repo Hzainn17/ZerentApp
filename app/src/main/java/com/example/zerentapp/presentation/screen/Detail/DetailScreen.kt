@@ -1,4 +1,4 @@
-package com.example.zerentapp.presentation.screen.Detail
+package com.example.zerentapp.presentation.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -63,6 +64,8 @@ import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.screen.Detail.Detail
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
 
@@ -126,17 +129,15 @@ fun RatingBar(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
- fun DetailCard(
+fun DetailCard(
     detail: Detail,
     navController: NavController,
     detailList: List<dBarang>,
     modifier: Modifier = Modifier,
     ulasann: List<dUlasan> = Data.dataUlasan,
     scrollState: ScrollState = rememberScrollState(),
-    viewModel: DetailViewModel = hiltViewModel(),
-){
+    viewModel: DetailViewModel = hiltViewModel(),) {
     var rating by remember { mutableStateOf(0.0) }
-    //val viewModel: DetailViewModel = hiltViewModel()
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -183,7 +184,8 @@ fun RatingBar(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
@@ -241,34 +243,38 @@ fun RatingBar(
                     fontSize = 15.sp
                 )
 
-                //Ulasan
+//            item {
+                // Ulasan
                 Card(
                     modifier = Modifier
-                        .width(400.dp)
-                        .height(400.dp),
+                        .fillMaxWidth()
+//                        .padding(horizontal = 15.dp)
+                    ,
                     elevation = CardDefaults.cardElevation(10.dp),
                     colors = CardDefaults.cardColors(Color.White)
                 ) {
-                    Column(modifier = Modifier
-                        .padding(10.dp),
+                    Column(
+                        modifier = Modifier
+                            .padding(10.dp),
                     ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                        ){
-                            Text(modifier = Modifier
-                                ,
+                        ) {
+                            Text(
+                                modifier = Modifier,
                                 text = "Penilaian Produk",
                                 fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold)
+                                fontWeight = FontWeight.Bold
+                            )
                             Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
                         }
-                        Spacer(modifier = Modifier .height(10.dp),)
-                        Row (
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(
                             modifier = Modifier,
                             verticalAlignment = Alignment.CenterVertically
-                        ){
+                        ) {
                             RatingBar(
                                 modifier = Modifier.padding(5.dp),
                                 rating = rating,
@@ -278,8 +284,10 @@ fun RatingBar(
                                 },
                                 starsColor = Color.Yellow
                             )
-                            Text(text = "4/5",
-                                color = Color.Gray)
+                            Text(
+                                text = "4/5",
+                                color = Color.Gray
+                            )
                         }
 
                         LazyRow(
@@ -293,12 +301,17 @@ fun RatingBar(
                                 }
                             }
                         }
+
+
                     }
                 }
-            }
+                Spacer(modifier = Modifier.height(5.dp))
+//            }
         }
         }
+
     }
+}
 
 
 //@Preview(showBackground = true)
