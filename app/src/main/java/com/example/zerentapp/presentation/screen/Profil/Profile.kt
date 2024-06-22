@@ -32,6 +32,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,19 +44,34 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.example.zerentapp.R
+import com.example.zerentapp.data.Data
 
+@Composable
+fun Profile(navController: NavHostController, viewModel: ProfilViewModel = hiltViewModel(),) {
+    val currentUser = remember { mutableStateOf(Data.sampleStatus[0]) }
+    val users by viewModel.users.collectAsState()
+    val profil = users.firstOrNull()
+
+    profil?.let {
+        ProfileScreen(navController = navController, user = it)
+    } ?: run {
+        Text(text = "Loading...", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
+    }
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
+    user:Profil,
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ProfilViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -105,7 +124,7 @@ fun ProfileScreen(
                             Spacer(modifier = Modifier.width(20.dp))
                             Column {
                                 Text(
-                                    text = "Mj",
+                                    text = user.DisplayName,
                                     fontSize = 19.sp,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
@@ -122,7 +141,7 @@ fun ProfileScreen(
                                     contentPadding = PaddingValues(0.dp) // Atur padding untuk memastikan teks berada di tengah
                                 ) {
                                     Text(
-                                        text = "Anak Sultan",
+                                        text = user.Title,
                                         fontSize = 12.sp,
                                         color = Color.Black,
                                         textAlign = TextAlign.Center,
@@ -165,12 +184,6 @@ fun ProfileScreen(
                                     .align(Alignment.BottomCenter)
                             )
                         }
-
-
-
-
-
-
                         Box(modifier = Modifier.fillMaxWidth()
                             .clickable { navController.navigate("toko") }
                         ) {
@@ -202,14 +215,6 @@ fun ProfileScreen(
                                     .align(Alignment.BottomCenter)
                             )
                         }
-
-
-
-
-
-
-
-
                         Box(modifier = Modifier
                             .fillMaxWidth()
                             .clickable { navController.navigate("bantuan") }) {
@@ -241,29 +246,15 @@ fun ProfileScreen(
                                     .align(Alignment.BottomCenter)
                             )
                         }
-
-
-
-
                     }
-
-
-                    
                 }
-
-
-
             }
-
-
-
-
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun ProfileSettingPrev() {
-    ProfileScreen(navController = rememberNavController())
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun ProfileSettingPrev() {
+//    ProfileScreen(navController = rememberNavController())
+//}

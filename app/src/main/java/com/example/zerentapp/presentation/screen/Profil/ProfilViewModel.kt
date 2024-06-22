@@ -11,9 +11,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class Profil(
-    val id : String,
-    val DisplayName: String,
-    val Title: String,
+    val id : String = "",
+    val DisplayName: String = "",
+    val Title: String = "",
 )
 @HiltViewModel
 class ProfilViewModel @Inject constructor(

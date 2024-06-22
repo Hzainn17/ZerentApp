@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -24,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarHalf
 import androidx.compose.material.icons.rounded.StarOutline
@@ -51,7 +48,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,11 +55,11 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.zerentapp.R
-import com.example.zerentapp.presentation.component.UlasanScreen
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.presentation.component.UlasanScreen
 import com.example.zerentapp.presentation.screen.Detail.Detail
 import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
@@ -88,7 +84,6 @@ fun DetailScreen(
     detail?.let {
         DetailCard(navController = navController, detailList = detailList, detail = it)
     } ?: run {
-        // Display a loading indicator or error message
         Text(text = "Loading...", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
     }
 }
@@ -151,7 +146,7 @@ fun DetailCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = {navController.navigate(Screen.Chat.route)},
                         modifier = Modifier.size(width = 195.dp, height = 50.dp),
                         colors = ButtonDefaults.buttonColors(Color.White),
                         shape = RectangleShape

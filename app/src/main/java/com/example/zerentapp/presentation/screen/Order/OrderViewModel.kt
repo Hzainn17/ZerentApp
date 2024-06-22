@@ -59,7 +59,6 @@ class OrderViewModel @Inject constructor(
                     Log.d("OrderViewModel", "Fetched products by status $status: $filteredProducts")
                 }
                 .addOnFailureListener { exception ->
-                    // Handle the error
                 }
         }
     }

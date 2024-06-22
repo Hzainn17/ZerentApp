@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Text
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -44,7 +44,9 @@ fun ResultScreen(
             TopAppBar(
                 title = {
                     Box(
-                        modifier = Modifier.width(360.dp).clickable {navController.navigate("fail")},
+                        modifier = Modifier
+                            .width(360.dp)
+                            .clickable { navController.navigate("fail") },
                         contentAlignment = Alignment.Center
                     ) {
                         SearchBar(
@@ -65,7 +67,14 @@ fun ResultScreen(
             text = "Filter Result",
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            modifier = Modifier.padding(top = it.calculateTopPadding() + 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+            modifier = Modifier
+                .padding(
+                    top = it.calculateTopPadding() + 16.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                )
+                .clickable { navController.navigate("fail") }
         )
         LazyVerticalGrid(
             contentPadding = PaddingValues(16.dp),
