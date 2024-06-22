@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,22 +25,23 @@ import androidx.compose.ui.unit.dp
 import com.example.zerentapp.model.ChatList
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import com.example.zerentapp.R
+import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.ui.theme.ZerentAppTheme
 
 
 @Composable
 fun ChatlistItem(
     ChatList: ChatList,
     modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit
 
-    //onItemClicked: (Int) -> Unit
 ) {
+
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(10.dp)
+        modifier = modifier.clickable {
+            onItemClicked(ChatList.id)
+        }
 
     ) {
         Spacer(modifier = Modifier
@@ -93,16 +93,22 @@ fun ChatlistItem(
 }
 
 
+
 @Preview(showBackground = true)
 @Composable
-private fun GreetingPreview() {
-    ChatlistItem(
-        ChatList = ChatList(
-            1,
-            "Kumii",
-            "sender",
-            "fixx yaaa?",
-            R.drawable.ku
-        ),
-    )
+private fun PenjualItemHorizontalPreview() {
+    ZerentAppTheme {
+        ChatlistItem(
+            ChatList = ChatList(
+                1,
+                "Kumii",
+                "sender",
+                "fixx yaaa?",
+                R.drawable.ku
+            ),
+            onItemClicked = { chatId ->
+                println("Chat Id : $chatId")
+            }
+        )
+    }
 }

@@ -28,7 +28,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.zerentapp.R
-import com.example.zerentapp.data.tempData
 import com.example.zerentapp.navigation.NavigationItem
 import com.example.zerentapp.navigation.Screen
 
@@ -110,7 +109,7 @@ fun ZerentApp(
                 WhishlistScreen(navController)
             }
             composable(Screen.Chat.route){
-                ChatScreen(navController = rememberNavController(), ChatList = tempData.chatList)
+                ChatScreen(navController)
             }
             composable(Screen.Order.route){
                 Order(navController)
@@ -158,6 +157,7 @@ fun ZerentApp(
                 chatDetail(
                     navController = navController,
                     chatId = navBackStackEntry.arguments?.getInt("chatId"),
+
                 )
 
             }

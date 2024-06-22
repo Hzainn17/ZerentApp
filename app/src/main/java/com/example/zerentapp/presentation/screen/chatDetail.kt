@@ -41,13 +41,12 @@ fun chatDetail(
     val ChatList: List<ChatList> = tempData.chatList.filter { id ->
         id.id == chatId
     }
-    ChatCard(navController = navController, ChatList = ChatList)
+    ChatCard(ChatList = ChatList)
 
     }
 
 @Composable
 fun ChatCard(
-    navController: NavController,
     modifier: Modifier = Modifier,
     ChatList: List<ChatList>,) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -181,5 +180,5 @@ fun ChatBottomBar(
 @Preview(showBackground = true)
 @Composable
 private fun CHATScreenPreview(){
-    ChatCard(navController = NavController(LocalContext.current), ChatList = tempData.chatList)
+    ChatCard(ChatList = tempData.chatList)
 }
