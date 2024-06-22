@@ -151,7 +151,7 @@ fun ChatCard(
 
             ) {
                 Text(
-                    text = "This is a pointy chat box.",
+                    text = "${ChatList[0].textchat}",
                     color = Color.White,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier
