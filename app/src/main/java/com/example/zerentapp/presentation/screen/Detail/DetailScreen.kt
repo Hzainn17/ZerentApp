@@ -197,7 +197,6 @@ fun RatingBar(
 
 
                 //Detail
-
                 Text(
                     text = detailList[0].nama,
                     modifier = Modifier
@@ -208,17 +207,39 @@ fun RatingBar(
 
                 )
 
-                Text(
-                    text = "Rp"+detailList[0].harga,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-                Row (
-                    modifier = Modifier
-                ){
-                    Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
-                    Text( modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
-                }
+               Row(
+                   horizontalArrangement = Arrangement.Absolute.spacedBy(206.dp),
+                   verticalAlignment =  Alignment.CenterVertically
+               ){
+                   Column(
+                       verticalArrangement = Arrangement.Absolute.spacedBy(10.dp),
+
+                   ) {
+                       Text(
+                           text = "Rp"+detailList[0].harga,
+                           fontSize = 20.sp,
+                           fontWeight = FontWeight.SemiBold,
+                       )
+                       Row{
+                           Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                           Text( modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
+                       }
+                   }
+                   IconButton(onClick = {navController.navigate(Screen.Chat.route)}) {
+
+                       Image(
+                           painter = painterResource(id = R.drawable.chat),
+                           contentDescription = "Chat",
+                           modifier = Modifier
+                               .size(22.dp)
+
+
+                       )
+                   }
+               }
+
+
+               
                 Row (
                     modifier = Modifier
                         .offset( x = 250.dp)
@@ -226,29 +247,7 @@ fun RatingBar(
                     horizontalArrangement = Arrangement.Absolute.spacedBy(5.dp)
                 ){
 
-                    IconButton(onClick = {navController.navigate(Screen.Request.route)}) {
 
-                        Image(
-                            painter = painterResource(id = R.drawable.plane),
-                            contentDescription = "Pesawat",
-                            modifier = Modifier
-                                .size(22.dp)
-
-
-                        )
-                    }
-
-                    IconButton(onClick = {navController.navigate(Screen.Chat.route)}) {
-
-                        Image(
-                            painter = painterResource(id = R.drawable.chat),
-                            contentDescription = "Chat",
-                            modifier = Modifier
-                                .size(22.dp)
-
-
-                        )
-                    }
 
                 }
 
