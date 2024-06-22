@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,13 +40,16 @@ fun ChatlistItem(
 ) {
 
     Row(
-        modifier = modifier.clickable {
+        modifier = modifier
+            .clickable {
             onItemClicked(ChatList.id)
         }
+            .height(70.dp),
 
     ) {
         Spacer(modifier = Modifier
-            .width(10.dp))
+            .width(10.dp)
+        )
         Image(
             painter = painterResource(id = ChatList.photo),
             contentDescription = ChatList.user,
@@ -55,7 +59,7 @@ fun ChatlistItem(
                 .clip(CircleShape)
                 .size(50.dp)
         )
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(10.dp))
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -68,7 +72,8 @@ fun ChatlistItem(
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             )
             Text(
                 text = ChatList.textchat,

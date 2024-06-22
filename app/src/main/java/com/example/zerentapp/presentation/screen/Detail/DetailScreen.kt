@@ -35,6 +35,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -200,17 +201,29 @@ fun RatingBar(
                 Text(
                     text = detailList[0].nama,
                     modifier = Modifier
-                        .padding(top = 70.dp),
+                        .padding(top = 10.dp),
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
 
                 )
+
+                Text(
+                    text = "Rp"+detailList[0].harga,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
                 Row (
                     modifier = Modifier
-
+                ){
+                    Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                    Text( modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
+                }
+                Row (
+                    modifier = Modifier
+                        .offset( x = 250.dp)
                     ,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    horizontalArrangement = Arrangement.Absolute.spacedBy(5.dp)
                 ){
 
                     IconButton(onClick = {navController.navigate(Screen.Request.route)}) {
@@ -239,20 +252,6 @@ fun RatingBar(
 
                 }
 
-
-
-                Text(
-                    text = "Rp"+detailList[0].harga,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-
-                Row (
-                    modifier = Modifier
-                ){
-                    Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
-                    Text( modifier = Modifier, text = detailList[0].lokasi, fontSize = 15.sp)
-                }
                 Text(
                     modifier = Modifier,
                     text = detailList[0].detail,
@@ -301,7 +300,7 @@ fun RatingBar(
                         }
 
                         LazyRow(
-                            contentPadding = PaddingValues(10.dp),
+                            contentPadding = PaddingValues(5.dp),
                             modifier = modifier,
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -311,6 +310,23 @@ fun RatingBar(
                                 }
                             }
                         }
+
+
+                    }
+                }
+                //FOOTER
+                Row(
+                    modifier = Modifier
+                        .width(400.dp)
+                        .height(100.dp),
+
+                ) {
+                    Column(modifier = Modifier
+                        .padding(10.dp),
+                    ) {
+
+                        Spacer(modifier = Modifier .height(10.dp),)
+
 
 
                     }
