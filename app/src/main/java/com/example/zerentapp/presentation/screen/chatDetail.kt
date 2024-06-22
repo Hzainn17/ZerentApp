@@ -1,6 +1,5 @@
 package com.example.zerentapp.presentation.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,19 +20,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.zerentapp.R
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.zerentapp.data.tempData
+import com.example.zerentapp.model.ChatList
 
 @Composable
-fun ChatDetail(
-    //ChatList: ChatList,
+fun chatDetail(
+
     modifier: Modifier = Modifier,
-) {
+    navController: NavController,
+    chatId: Int?,
+
+    ) {
+    val ChatList: List<ChatList> = tempData.chatList.filter { id ->
+        id.id == chatId
+    }
+    ChatCard(navController = navController, ChatList = ChatList)
+
+    }
+
+@Composable
+fun ChatCard(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    ChatList: List<ChatList>,) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.chatbackground),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = ChatList[0].photo)
+                .build(),
             contentDescription = null,
             modifier = Modifier.fillMaxSize()
         )
@@ -122,7 +143,7 @@ fun ChatDetail(
             ChatBottomBar(onSendClick = { message -> /* Send message */ })
         }
     }
-    }
+}
 
 
 @Composable
@@ -154,4 +175,11 @@ fun ChatBottomBar(
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun CHATScreenPreview(){
+    ChatCard(navController = NavController(LocalContext.current), ChatList = tempData.chatList)
 }

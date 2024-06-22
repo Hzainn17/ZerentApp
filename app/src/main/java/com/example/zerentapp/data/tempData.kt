@@ -7,17 +7,17 @@ object tempData {
     val chatList = listOf(
         ChatList(
             id = 1,
-            user = "Hendra",
+            user = "Kumii",
             role = "sender",
-            textchat = "lorem ipsum dolor sit amet",
-            photo = R.drawable.profil
+            textchat = "Fix yaaa??",
+            photo = R.drawable.ku
         ),
         ChatList(
             id = 2,
-            user = "Hendra",
+            user = "Juna",
             role = "sender",
-            textchat = "lorem ipsum dolor sit amet",
-            photo = R.drawable.profil
+            textchat = "unruk tangal 13 juni bisa?",
+            photo = R.drawable.jun
         )
     )
 }

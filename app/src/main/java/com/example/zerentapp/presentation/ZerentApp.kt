@@ -28,10 +28,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.zerentapp.R
+import com.example.zerentapp.data.tempData
 import com.example.zerentapp.navigation.NavigationItem
 import com.example.zerentapp.navigation.Screen
 
+import com.example.zerentapp.presentation.Chat.ChatScreen
+
 import com.example.zerentapp.presentation.screen.BantuanScreen
+
 
 import com.example.zerentapp.presentation.screen.Check
 import com.example.zerentapp.presentation.screen.CheckScreen
@@ -53,6 +57,7 @@ import com.example.zerentapp.presentation.screen.ResultScreen
 
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
+import com.example.zerentapp.presentation.screen.chatDetail
 import com.example.zerentapp.utils.shouldShowBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -104,6 +109,9 @@ fun ZerentApp(
             composable(Screen.Whishlist.route){
                 WhishlistScreen(navController)
             }
+            composable(Screen.Chat.route){
+                ChatScreen(navController = rememberNavController(), ChatList = tempData.chatList)
+            }
             composable(Screen.Order.route){
                 Order(navController)
             }
@@ -141,6 +149,15 @@ fun ZerentApp(
                 DetailScreen(
                     navController = navController,
                     detailId = navBackStackEntry.arguments?.getInt("detailId"),
+                )
+
+            }
+            composable(Screen.chatDetail.route + "/{chatId}",
+                arguments = listOf(navArgument("chatId") { type = NavType.IntType })
+            ) { navBackStackEntry ->
+                chatDetail(
+                    navController = navController,
+                    chatId = navBackStackEntry.arguments?.getInt("chatId"),
                 )
 
             }

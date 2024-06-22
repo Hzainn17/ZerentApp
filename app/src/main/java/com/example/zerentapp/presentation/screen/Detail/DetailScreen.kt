@@ -1,6 +1,7 @@
 package com.example.zerentapp.presentation.screen.Detail
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
@@ -46,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -188,14 +192,55 @@ fun RatingBar(
                     )
                 }
 
+
+
+
                 //Detail
+
                 Text(
                     text = detailList[0].nama,
-                    modifier = Modifier,
+                    modifier = Modifier
+                        .padding(top = 70.dp),
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
+
                 )
+                Row (
+                    modifier = Modifier
+
+                    ,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ){
+
+                    IconButton(onClick = {navController.navigate(Screen.Request.route)}) {
+
+                        Image(
+                            painter = painterResource(id = R.drawable.plane),
+                            contentDescription = "Pesawat",
+                            modifier = Modifier
+                                .size(22.dp)
+
+
+                        )
+                    }
+
+                    IconButton(onClick = {navController.navigate(Screen.Chat.route)}) {
+
+                        Image(
+                            painter = painterResource(id = R.drawable.chat),
+                            contentDescription = "Chat",
+                            modifier = Modifier
+                                .size(22.dp)
+
+
+                        )
+                    }
+
+                }
+
+
+
                 Text(
                     text = "Rp"+detailList[0].harga,
                     fontSize = 20.sp,
