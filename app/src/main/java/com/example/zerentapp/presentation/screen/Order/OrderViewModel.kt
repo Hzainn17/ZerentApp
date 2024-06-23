@@ -21,8 +21,6 @@ data class Order(
     val rentalDuration: Int = 0,
 )
 
-
-
 @HiltViewModel
 class OrderViewModel @Inject constructor(
     private val firestore: FirebaseFirestore

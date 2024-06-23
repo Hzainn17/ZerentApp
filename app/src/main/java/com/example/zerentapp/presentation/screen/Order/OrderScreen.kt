@@ -174,13 +174,10 @@ fun StatusSection(
             .padding(vertical = 8.dp)
 
     ) {
-
         LazyColumn {
             items(rentals) { product ->
                 BarangCard(product)
-
             }
-
         }
     }
 }
@@ -350,7 +347,6 @@ fun BarangCard(
                                     0xFF043C5B
                                 )
                             )
-
                             .padding(10.dp),
                         fontSize = 14.sp,
                         color = if (isSelected.value) Color(0xFF043C5B) else Color.White,

@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -33,8 +34,8 @@ import com.example.zerentapp.navigation.Screen
 import com.example.zerentapp.presentation.screen.BantuanScreen
 import com.example.zerentapp.presentation.screen.ChatDetail
 import com.example.zerentapp.presentation.screen.ChatListScreen
-import com.example.zerentapp.presentation.screen.Check
-import com.example.zerentapp.presentation.screen.CheckScreen
+import com.example.zerentapp.presentation.screen.Detail.Check
+import com.example.zerentapp.presentation.screen.Detail.CheckScreen
 import com.example.zerentapp.presentation.screen.DetailScreen
 import com.example.zerentapp.presentation.screen.FiturResult
 import com.example.zerentapp.presentation.screen.HomeScreen
@@ -46,19 +47,21 @@ import com.example.zerentapp.presentation.screen.OnBoardingScreen
 import com.example.zerentapp.presentation.screen.PostingProductScreen
 import com.example.zerentapp.presentation.screen.Profil.Profile
 import com.example.zerentapp.presentation.screen.Profil.ProfileSetting
-import com.example.zerentapp.presentation.screen.Request2Screen
-import com.example.zerentapp.presentation.screen.RequestScreen
+import com.example.zerentapp.presentation.screen.Request.RequestScreen
+import com.example.zerentapp.presentation.screen.Request.RequestViewModel
+import com.example.zerentapp.presentation.screen.Request.Requestform
 import com.example.zerentapp.presentation.screen.TokoScreen
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
-import com.example.zerentapp.presentation.screen.doneUploadScreens
+import com.example.zerentapp.presentation.screen.Request.doneUploadScreens
 import com.example.zerentapp.utils.shouldShowBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ZerentApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    viewModel: RequestViewModel = hiltViewModel(),
 ) {
     val navBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStack?.destination?.route
@@ -140,7 +143,7 @@ fun ZerentApp(
                 doneUploadScreens(navController)
             }
             composable(Screen.Request2.route){
-                Request2Screen(navController)
+                Requestform(navController)
             }
             composable(Screen.Chat.route){
                 ChatListScreen(navController)

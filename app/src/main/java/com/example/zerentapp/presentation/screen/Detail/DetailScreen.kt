@@ -162,15 +162,16 @@ fun DetailCard(
                         detail,
                         navController = navController,
                         onPostRental = { rental ->
-                        viewModel.postRental(rental,
+                            viewModel.postRental(rental,
                             onSuccess = {
                                 // Handle success
                             },
                             onError = { error ->
                                 // Handle error
                             }
-                        )
-                    } )
+                            )
+                        }
+                    )
                 }
             }
         }
