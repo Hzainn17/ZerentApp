@@ -26,44 +26,37 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.zerentapp.R
-import com.example.zerentapp.ui.theme.BackgroungLogin
-import com.example.zerentapp.ui.theme.ZerentAppTheme
-import com.example.zerentapp.ui.theme.color1
-import com.example.zerentapp.ui.theme.poppinsFontFamily
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.zerentapp.R
+import com.example.zerentapp.data.sharedPref.SharedPreferencesManager
 import com.example.zerentapp.navigation.Screen
+import com.example.zerentapp.ui.theme.BackgroungLogin
+import com.example.zerentapp.ui.theme.color1
+import com.example.zerentapp.ui.theme.poppinsFontFamily
 import com.example.zerentapp.utils.Constant.CLIENT
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -78,6 +71,9 @@ fun Login(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    var name by remember { mutableStateOf("") }
+
     val coroutineScope = rememberCoroutineScope()
     val state = viewModel.state.collectAsState(initial = null)
     var email by remember { mutableStateOf("") }
@@ -114,6 +110,7 @@ fun Login(
             onPasswordChange = { password = it },
             onPasswordConfirmChange = { passwordConfirm = it },
             onLoginClick = {
+                sharedPreferencesManager.email = email
                 coroutineScope.launch {
                     if (email.isBlank() || password.isBlank()) {
                         Toast.makeText(
@@ -325,7 +322,7 @@ fun LoginScreen(
                             )
                             .size(40.dp)
                             .background(Color.White)
-                        .clickable(onClick = onGoogleClick),
+                            .clickable(onClick = onGoogleClick),
                         contentAlignment = Alignment.Center
                     ){
                             Image(

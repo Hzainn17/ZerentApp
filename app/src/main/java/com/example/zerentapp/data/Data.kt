@@ -1,7 +1,5 @@
 package com.example.zerentapp.data
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.zerentapp.R
 import com.example.zerentapp.model.Barang
 import com.example.zerentapp.model.Status
@@ -123,13 +121,13 @@ object Data {
         ),
     )
     val sampleStatus = listOf(
-        Status(
-            "selesai", listOf(
-                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
-                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
-                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang")
-            )
-        ),
+//        Status(
+//            "selesai", listOf(
+//                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
+//                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
+//                Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang")
+//            )
+//        ),
         Status(
             "pending", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
@@ -152,7 +150,7 @@ object Data {
             )
         ),
         Status(
-            "selesai1", listOf(
+            "selesai", listOf(
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_1, R.drawable.nora, "Serba Ada","Bayar Sekarang"),
                 Barang("Kamera EOS 500D", "Menyewakan kamera Canon untuk kebutuhan tugas","150.000",2, R.drawable.img_2, R.drawable.nora, "Serba Ada","Bayar Sekarang")

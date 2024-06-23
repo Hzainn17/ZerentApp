@@ -1,22 +1,22 @@
-package com.example.zerentapp.presentation.screen
+package com.example.zerentapp.presentation.screen.Detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -27,31 +27,43 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.zerentapp.R
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dCheck
 import com.example.zerentapp.model.dPembayaran
 import com.example.zerentapp.ui.theme.cardFill1
+import com.example.zerentapp.ui.theme.cardFill2
 import com.example.zerentapp.ui.theme.cardStroke1
+import com.example.zerentapp.ui.theme.cardStroke2
 import com.example.zerentapp.ui.theme.mainn
 
+@Composable
+fun CheckScreen(navController: NavHostController) {
+    val checkList = Data.dataCheck
+    val pembayaran = Data.dataPembayaran
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(8.dp)) // Add a spacer as a header
+        }
+        item {
+            CheckCard(navController = navController, checkList = checkList, pembayaran = pembayaran)
+        }
+    }
+}
 
 @Composable
-fun MyButton2(onClick: () -> Unit) {
+fun MyButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier
@@ -60,80 +72,182 @@ fun MyButton2(onClick: () -> Unit) {
         shape = MaterialTheme.shapes.small,
         colors = ButtonDefaults.buttonColors(mainn)
     ) {
-        Text(text = "Kembali",
+        Text(text = "Pesan",
             fontSize = 20.sp)
     }
 }
 
 @Composable
-fun Check(navController: NavController,){
-    val pembayaran = Data.dataPembayaran
-    CheckDone( pembayaran = pembayaran)
-}
-@Composable
-fun CheckDone(
-
-    modifier: Modifier = Modifier,
+private fun CheckCard(
+    navController: NavHostController,
+    checkList: List<dCheck>,
     pembayaran: List<dPembayaran>,
-    //checkList: List<dCheck>
+    modifier: Modifier = Modifier,
 ){
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxHeight(0.5f)
-        ,
+            .padding(15.dp),
     ) {
-        Image(painter = painterResource(id = R.drawable.img_4)
-            , contentDescription = null ,
+        Card(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .border(width = 1.dp, color = (cardStroke1), shape = RoundedCornerShape(7.dp))
+//            .width(400.dp)
+//            .height(400.dp)
             ,
-            contentScale = ContentScale.FillBounds
-            )
-    }
+            elevation = CardDefaults.cardElevation(4.dp),
+            colors = CardDefaults.cardColors(cardFill1)
+//        colors = CardDefaults.cardColors(Color.Blue)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp),
+            ) {
+                Text( modifier = Modifier
+                    ,
+                    text = checkList[0].namaToko,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp
+                )
 
-    Column (
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-        )
-    {
-        Card (
-            modifier = Modifier
-                .padding(top = 20.dp)
-//                .size(30.dp)
-                .scale(1.5f)
-                .drawWithContent {
-                    drawContent()
-                    drawCircle(
-                        color = (Color(0XFF026D9E)),
-                        radius = size.minDimension / 2,
-                        center = Offset(size.width / 2, size.height / 2),
-                        style = Stroke(width = 2.dp.toPx())
+                Row (
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(width = 100.dp, height = 90.dp),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(data = checkList[0].foto)
+                            .build(),
+                        contentDescription = "Foto Barang"
                     )
-                }
-            ,
+                    Spacer(modifier = Modifier.width(16.dp))
 
-        ){
-            Icon(imageVector = Icons.Default.Check, contentDescription = null)
+                    Column(
+                        modifier = Modifier,
+                        verticalArrangement = Arrangement.Center
+
+                    ) {
+                        Text(text = checkList[0].nama,
+                            fontSize = 17.sp,
+                            modifier = Modifier.padding(vertical = 5.dp))
+                        Text(text = "Rp.${checkList[0].harga}",fontSize = 17.sp,
+                            modifier = Modifier.padding(vertical = 5.dp))
+                        Text(text = checkList[0].jumlah,fontSize = 17.sp,
+                            modifier = Modifier.padding(vertical = 5.dp))
+                    }
+                }
+                Row (modifier = Modifier
+                    .padding(vertical = 7.dp),
+                ){
+                    Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                    Text(fontSize = 17.sp,text = checkList[0].alamat)
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 7.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(fontSize = 17.sp,text = "Tanggal Pinjam")
+                    Text(fontSize = 17.sp,text = checkList[0].tanggal_pinjam)
+                }
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 7.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Text(fontSize = 17.sp,text = "Tanggal Pengembalian")
+                    Text(fontSize = 17.sp,text = checkList[0].tanggal_kembali)
+                }
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Row {
+                        Text(fontSize = 17.sp,text = "Total Pesanan")
+                        Text(fontSize = 17.sp,text = " (${checkList[0].total} hari)")
+                    }
+                    Text(fontSize = 17.sp,text = "Rp.${checkList[0].harga}")
+                }
+            }
         }
-        Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            modifier = Modifier
-            ,
-            color = Color.White,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp,
-            text = "Transaksi Berhasil"
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            modifier = Modifier
-            ,
-            color = Color.White,
-            text = "07 Mei 2024, 00:15:37 WIB")
+        Spacer(modifier = Modifier.height(20.dp))
 
         Card (modifier = Modifier
-            .padding(25.dp)
+            .border(width = 1.dp, color = (cardStroke2), shape = RoundedCornerShape(7.dp)),
+            colors = CardDefaults.cardColors(cardFill2),
+            )
+        {
+            Column (modifier = Modifier
+                .padding(12.dp)
+                ,){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ){
+                    Text(modifier = Modifier
+                        ,
+                        text = "Opsi Pengiriman",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+                    Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+                }
+                Row (modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 25.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                    Text(text = "Ambil di Tempat")
+                    Text(text = "Rp.0")
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Card (modifier = Modifier
+            .border(width = 1.dp, color = (cardStroke2), shape = RoundedCornerShape(7.dp)),
+            colors = CardDefaults.cardColors(cardFill2),
+        )
+        {
+            Column (modifier = Modifier
+                .padding(12.dp)
+                ,){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(modifier = Modifier
+                        ,
+                        text = "Opsi Pengiriman",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+
+                    Row (
+                        modifier = Modifier,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ){
+                        Image(modifier = Modifier
+                            .padding(end = 10.dp)
+                            .size(20.dp)
+                            ,
+                            painter = painterResource(id = R.drawable.img_3), contentDescription = null)
+                        Text(text = "DANA",
+                            fontWeight = FontWeight.SemiBold)
+                        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        Card (modifier = Modifier
             .border(width = 1.dp, color = (cardStroke1), shape = RoundedCornerShape(7.dp)),
             colors = CardDefaults.cardColors(cardFill1),
             elevation = CardDefaults.cardElevation(4.dp),
@@ -143,108 +257,12 @@ fun CheckDone(
                 .padding(12.dp)
                 ,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
                 ){
-                    Text(modifier = Modifier
-                        ,
-                        text = "No. Transaksi",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.width(127.dp))
-                        Text(text = "SP78292BW001",
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                            ,
-                        )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(modifier = Modifier
-                        ,
-                        text = "Tanggal Mulai",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal)
-                    Spacer(modifier = Modifier.width(127.dp))
-                    Text(text = "08/05/2024",
-//                            fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier
-                        ,
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(modifier = Modifier
-                        ,
-                        text = "Tanggal Berakhir",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal)
-                    Spacer(modifier = Modifier.width(127.dp))
-                    Text(text = "10/05/2024",
-//                            fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier
-                        ,
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(modifier = Modifier
-                        ,
-                        text = "Total Durasi",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.width(127.dp))
-                    Text(text = "2 Hari",
-                            fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                        ,
-                    )
-                }
-
-            }
-        }
-
-
-        Card (modifier = Modifier
-            .padding(horizontal = 25.dp)
-            .border(width = 1.dp, color = (cardStroke1), shape = RoundedCornerShape(7.dp)),
-            colors = CardDefaults.cardColors(cardFill1),
-            elevation = CardDefaults.cardElevation(4.dp),
-        )
-        {
-            Column (modifier = Modifier
-                .padding(12.dp)
-                ,
-//                horizontalAlignment = Alignment.CenterHorizontally
-            ){
                 Text(
                     text = "Rincian Pembayaran",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
-                )
+                    )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -397,16 +415,14 @@ fun CheckDone(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MyButton2(onClick = { /* Lakukan sesuatu saat tombol diklik */ })
+            MyButton(onClick = { navController.navigate("done") })
         }
+
     }
-
-
-
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_6_PRO)
+@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    CheckDone( pembayaran = Data.dataPembayaran)
+private fun CheckScreenPreview() {
+    CheckCard(navController = NavHostController(LocalContext.current), checkList = Data.dataCheck, pembayaran = Data.dataPembayaran)
 }

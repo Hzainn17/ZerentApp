@@ -1,10 +1,23 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -16,7 +29,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,19 +50,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import coil.size.Size
 import com.example.zerentapp.data.Data.sampleStatus
 import com.example.zerentapp.model.Status
 import com.example.zerentapp.presentation.screen.Order.Order
-import com.example.zerentapp.presentation.screen.Order.ToolKit.OrderSearch
 import com.example.zerentapp.presentation.screen.Order.OrderViewModel
-import android.content.Context
-import coil.ImageLoader
-import coil.decode.SvgDecoder
+import com.example.zerentapp.presentation.screen.Order.ToolKit.OrderSearch
 
 val garis = Color(android.graphics.Color.parseColor("#323232"))
 val biggaris = Color(android.graphics.Color.parseColor("#E9F5FE"))
@@ -66,9 +82,6 @@ fun StatusScreen(status: MutableState<Status>) {
         modifier = Modifier
             .padding(start = 50.dp)
             .padding(top = 10.dp)
-
-
-
         ,
         text = "Pesanan Saya"
     )
@@ -161,13 +174,10 @@ fun StatusSection(
             .padding(vertical = 8.dp)
 
     ) {
-
         LazyColumn {
             items(rentals) { product ->
                 BarangCard(product)
-
             }
-
         }
     }
 }
@@ -302,38 +312,80 @@ fun BarangCard(
                     .padding(top = 15.dp)
                     .padding(start = 5.dp)
             ){
-                AsyncImage(
-                    model = "https://example.com/test-image.jpg", // Use a simple test image URL
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .size(height = 35.dp, width = 35.dp)
-                )
-                Text(modifier = Modifier
-                    .padding(start = 10.dp, top = 7.dp)
-                    ,
-                    text = "Toko Serba Ada",)
-                Spacer(modifier = Modifier.weight(1f))
                 Row(
-
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .offset(y = -5.dp)
-
-
                 ) {
+                if (product.rentalStatus == "digunakan"){
+                    Text(
+                        text = "Lapor kerusakan",
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp,)
+                            .clip(RoundedCornerShape(10.dp))
+//                            .clickable {
+//                                isSelected.value = !isSelected.value
+//                                if (product.rentalStatus == "pending") {
+//                                    viewModel.updateProductStatus(product.id, "digunakan")
+//                                } else if (product.rentalStatus == "digunakan") {
+//                                    viewModel.updateProductStatus(product.id, "selesai")
+//                                }
+//                            }
+                            .background(
+                                if (isSelected.value) {
+                                    Color(0xFFFFFFFF)
+                                } else {
+                                    Color(0xFF043C5B)
+                                }
+                            )
+                            .border(
+                                width = 1.5.dp,
+                                shape = RoundedCornerShape(10.dp),
+                                color = if (isSelected.value) Color(
+                                    0xFF043C5B
+                                ) else Color(
+                                    0xFF043C5B
+                                )
+                            )
+                            .padding(10.dp),
+                        fontSize = 14.sp,
+                        color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
+                        fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
+
+                        )
+                } else {
+                    AsyncImage(
+                        model = "https://example.com/test-image.jpg", // Use a simple test image URL
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .size(height = 35.dp, width = 35.dp)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 7.dp),
+                        text = "Toko Serba Ada",
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+
                     Row {
                         Text(
 //                            text = "${barang.button_action}",
-                            text = "konfirmasi",
+                            text = if (product.rentalStatus == "pending") {
+                                "konfirmasi"
+                            } else if (product.rentalStatus == "digunakan") {
+                                "pengembalian" } else { "beri rating"},
                             modifier = Modifier
 
                                 .padding(horizontal = 10.dp,)
                                 .clip(RoundedCornerShape(10.dp))
                                 .clickable {
                                     isSelected.value = !isSelected.value
-                                    if (isSelected.value) {
+                                    if (product.rentalStatus == "pending") {
+                                        viewModel.updateProductStatus(product.id, "digunakan")
+                                    } else if (product.rentalStatus == "digunakan") {
                                         viewModel.updateProductStatus(product.id, "selesai")
                                     }
                                 }
@@ -354,12 +406,10 @@ fun BarangCard(
                                     )
                                 )
 
-                                .padding(10.dp)
-
-                            ,
+                                .padding(10.dp),
                             fontSize = 14.sp,
                             color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
-                            fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium ,
+                            fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
 
                             )
                     }

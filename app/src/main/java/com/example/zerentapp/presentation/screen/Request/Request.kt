@@ -1,14 +1,42 @@
-package com.example.zerentapp.presentation.screen
+package com.example.zerentapp.presentation.screen.Request
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,11 +45,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.zerentapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +56,11 @@ import com.example.zerentapp.R
 @Composable
 fun RequestScreen(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: RequestViewModel = hiltViewModel()
 ) {
+    val requests by viewModel.requests.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,7 +83,6 @@ fun RequestScreen(
             )
         }
     ) {
-        // Main content with background image and padding
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,33 +93,38 @@ fun RequestScreen(
                     bottom = 16.dp
                 )
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Top
-            ) {
-                RequestCard(
-                    imageUrl = R.drawable.lucas,
-                    user = "Lucas",
-                    time = "2 Day ago",
-                    title = "Skateboard",
-                    category = "Hobi",
-                    startPrice = "50.000",
-                    endPrice = "150.000",
-                    imageProduct = R.drawable.productskateboard,
-                    description = "Need, skateboad... kira-kira untuk pemakaian santai tiap weekend (sabtu-minggu) di sore hari.",
-                )
-                RequestCard(
-                    imageUrl = R.drawable.shinta,
-                    user = "Shinta",
-                    time = "2 Day ago",
-                    title = "Gaun Ball Gown, Putih",
-                    category = "Pakaian",
-                    startPrice = "800.000",
-                    endPrice = "1.500.000",
-                    imageProduct = R.drawable.productgaun,
-                    description = "pengenn pake gaunnn... hadir ke pesta ulang tahun hamdan",
-                )
+            LazyColumn {
+                items(requests) { request ->
+                    RequestCard(request)
+                }
             }
+//            Column(
+//                modifier = Modifier.fillMaxSize(),
+//                verticalArrangement = Arrangement.Top
+//            ) {
+//                RequestCard(
+//                    imageUrl = R.drawable.lucas,
+//                    user = "Lucas",
+//                    time = "2 Day ago",
+//                    title = "Skateboard",
+//                    category = "Hobi",
+//                    startPrice = "50.000",
+//                    endPrice = "150.000",
+//                    imageProduct = R.drawable.productskateboard,
+//                    description = "Need, skateboad... kira-kira untuk pemakaian santai tiap weekend (sabtu-minggu) di sore hari.",
+//                )
+//                RequestCard(
+//                    imageUrl = R.drawable.shinta,
+//                    user = "Shinta",
+//                    time = "2 Day ago",
+//                    title = "Gaun Ball Gown, Putih",
+//                    category = "Pakaian",
+//                    startPrice = "800.000",
+//                    endPrice = "1.500.000",
+//                    imageProduct = R.drawable.productgaun,
+//                    description = "pengenn pake gaunnn... hadir ke pesta ulang tahun hamdan",
+//                )
+//            }
 
             CircularButtonWithIcon(
                 navController = navController,
@@ -105,15 +139,16 @@ fun RequestScreen(
 
 @Composable
 fun RequestCard(
-    imageUrl: Int,
-    imageProduct: Int,
-    user: String,
-    time: String,
-    title: String,
-    category: String,
-    startPrice: String,
-    endPrice: String,
-    description: String,
+    request: Request,
+//    imageUrl: Int,
+//    imageProduct: Int,
+//    user: String,
+//    time: String,
+//    title: String,
+//    category: String,
+//    startPrice: String,
+//    endPrice: String,
+//    description: String,
 ) {
     Card(
         modifier = Modifier
@@ -130,8 +165,8 @@ fun RequestCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = imageUrl),
-                    contentDescription = "$user image",
+                    painter = painterResource(id = R.drawable.productskateboard),
+                    contentDescription = "image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(36.dp)
@@ -140,13 +175,13 @@ fun RequestCard(
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = user,
+                        text = request.userName,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                     )
                     Text(
-                        text = "$time",
+                        text = request.waktu,
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
@@ -165,7 +200,7 @@ fun RequestCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = title,
+                text = request.title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -188,7 +223,7 @@ fun RequestCard(
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            text = "$category",
+                            text = request.kategori,
                             fontSize = 12.sp,
                             color = Color.Black,
                             textAlign = TextAlign.Center,
@@ -208,7 +243,7 @@ fun RequestCard(
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            text = "Rp$startPrice-Rp$endPrice",
+                            text = "Rp${request.priceStart}-Rp${request.priceEnd}",
                             fontSize = 12.sp,
                             color = Color.Black,
                             textAlign = TextAlign.Center,
@@ -217,14 +252,14 @@ fun RequestCard(
                     }
 
                     Text(
-                        text = description,
+                        text = request.deskripsi,
                         fontSize = 14.sp,
                         maxLines = 3,
                     )
                 }
 
                 Image(
-                    painter = painterResource(id = imageProduct),
+                    painter = painterResource(id = R.drawable.lucas),
                     contentDescription = null,
                     modifier = Modifier.size(77.dp)
                 )
@@ -275,8 +310,8 @@ fun CircularButtonWithIcon(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RequestScreenPreview() {
-    RequestScreen(navController = rememberNavController())
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RequestScreenPreview() {
+//    RequestScreen(navController = rememberNavController())
+//}

@@ -13,17 +13,17 @@ sealed class Screen (val route : String) {
     data object Kategori: Screen("kategori")
     data object DoneUp: Screen("doneup")
     data object Request2 : Screen("request2")
-
     data object ProfileSetting : Screen("profilesetting")
     data object Bantuan : Screen("bantuan")
     data object Toko : Screen("toko")
     data object PostingBarang : Screen("postingbarang")
-
     data object Detail : Screen("detail")
     data object Result : Screen("result")
     data object Check : Screen("check")
     data object Done : Screen("done")
     data object ResultFailed : Screen("fail")
-
+    data object Profil : Screen("profile")
+    data object Chat : Screen("chat")
+    data object ChatDetail : Screen("chatdetail")
 
 }
