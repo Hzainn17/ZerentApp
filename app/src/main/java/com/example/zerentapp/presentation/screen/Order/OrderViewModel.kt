@@ -18,7 +18,7 @@ data class Order(
     val rentalStatus: String = "",
     val rentalEndDate: String = "",
     val rentalStartDate: String = "",
-    val rentalDuration: String = "",
+    val rentalDuration: Int = 0,
 )
 
 
@@ -30,9 +30,9 @@ class OrderViewModel @Inject constructor(
     private val _products = MutableStateFlow<List<Order>>(emptyList())
     val products: StateFlow<List<Order>> = _products
 
-//    init {
-//        fetchProducts()
-//    }
+    init {
+        fetchProductsByStatus(status = "pending")
+    }
 
     private fun fetchRentals() {
         viewModelScope.launch {

@@ -315,38 +315,81 @@ fun BarangCard(
                     .padding(top = 15.dp)
                     .padding(start = 5.dp)
             ){
-                AsyncImage(
-                    model = "https://example.com/test-image.jpg", // Use a simple test image URL
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .size(height = 35.dp, width = 35.dp)
-                )
-                Text(modifier = Modifier
-                    .padding(start = 10.dp, top = 7.dp)
-                    ,
-                    text = "Toko Serba Ada",)
-                Spacer(modifier = Modifier.weight(1f))
                 Row(
-
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .offset(y = -5.dp)
-
-
                 ) {
+                if (product.rentalStatus == "digunakan"){
+                    Text(
+                        text = "Lapor kerusakan",
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp,)
+                            .clip(RoundedCornerShape(10.dp))
+//                            .clickable {
+//                                isSelected.value = !isSelected.value
+//                                if (product.rentalStatus == "pending") {
+//                                    viewModel.updateProductStatus(product.id, "digunakan")
+//                                } else if (product.rentalStatus == "digunakan") {
+//                                    viewModel.updateProductStatus(product.id, "selesai")
+//                                }
+//                            }
+                            .background(
+                                if (isSelected.value) {
+                                    Color(0xFFFFFFFF)
+                                } else {
+                                    Color(0xFF043C5B)
+                                }
+                            )
+                            .border(
+                                width = 1.5.dp,
+                                shape = RoundedCornerShape(10.dp),
+                                color = if (isSelected.value) Color(
+                                    0xFF043C5B
+                                ) else Color(
+                                    0xFF043C5B
+                                )
+                            )
+
+                            .padding(10.dp),
+                        fontSize = 14.sp,
+                        color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
+                        fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
+
+                        )
+                } else {
+                    AsyncImage(
+                        model = "https://example.com/test-image.jpg", // Use a simple test image URL
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .size(height = 35.dp, width = 35.dp)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 7.dp),
+                        text = "Toko Serba Ada",
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+
                     Row {
                         Text(
 //                            text = "${barang.button_action}",
-                            text = "konfirmasi",
+                            text = if (product.rentalStatus == "pending") {
+                                "konfirmasi"
+                            } else if (product.rentalStatus == "digunakan") {
+                                "pengembalian" } else { "beri rating"},
                             modifier = Modifier
 
                                 .padding(horizontal = 10.dp,)
                                 .clip(RoundedCornerShape(10.dp))
                                 .clickable {
                                     isSelected.value = !isSelected.value
-                                    if (isSelected.value) {
+                                    if (product.rentalStatus == "pending") {
+                                        viewModel.updateProductStatus(product.id, "digunakan")
+                                    } else if (product.rentalStatus == "digunakan") {
                                         viewModel.updateProductStatus(product.id, "selesai")
                                     }
                                 }
@@ -367,12 +410,10 @@ fun BarangCard(
                                     )
                                 )
 
-                                .padding(10.dp)
-
-                            ,
+                                .padding(10.dp),
                             fontSize = 14.sp,
                             color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
-                            fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium ,
+                            fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
 
                             )
                     }
