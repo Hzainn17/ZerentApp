@@ -221,29 +221,6 @@ fun PostingProductScreen(
 
             item {
                 TextField(
-                    value = deskripsi,
-                    onValueChange = { deskripsi = it },
-                    modifier = modifier
-                        .border(
-                            width = 1.dp,
-                            color = Color.Black,
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                        .background(Color.White, RoundedCornerShape(4.dp))
-                        .width(320.dp)
-                        .height(60.dp)
-                        .padding(horizontal = 0.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    label = { Text(text = "Deskripsi Barang") }
-                )
-            }
-
-            item {
-                TextField(
                     value = hargaSewa,
                     onValueChange = { hargaSewa = it },
                     modifier = modifier

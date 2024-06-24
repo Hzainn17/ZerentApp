@@ -25,20 +25,20 @@ class PostingViewModel : ViewModel() {
         namaPenjual: String
     ) {
         val product = hashMapOf(
-            "nama" to nama,
-            "harga" to harga,
+            "ProductNama" to nama,
+            "ProductHarga" to harga,
             "deposit" to deposit,
             "kota" to kota,
             "kecamatan" to kecamatan,
             "no" to no,
-            "deskripsi" to deskripsi,
-            "jarak" to jarak,
-            "rating" to rating,
-            "namaPenjual" to namaPenjual
+            "productDesc" to deskripsi,
+            "productDistance" to jarak,
+            "productRating" to rating,
+            "productPenjual" to namaPenjual
         )
 
         // Simpan data produk ke Firestore
-        firestore.collection("testposting")
+        firestore.collection("products")
             .add(product)
             .addOnSuccessListener { documentReference ->
                 // Handle success
@@ -63,8 +63,8 @@ class PostingViewModel : ViewModel() {
                 // Dapatkan URL download file gambar dari Firebase Storage
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     // Simpan URL download file gambar ke Firestore atau lakukan operasi lainnya
-                    firestore.collection("testposting").document(documentId)
-                        .update("imageUrl", uri.toString()) // Contoh: Simpan URL download ke Firestore
+                    firestore.collection("products").document(documentId)
+                        .update("productImage", uri.toString()) // Contoh: Simpan URL download ke Firestore
                         .addOnSuccessListener {
                             // Handle success
                         }

@@ -1,4 +1,4 @@
-package com.example.zerentapp.presentation.screen.Toko
+package com.example.zerentapp.presentation.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
