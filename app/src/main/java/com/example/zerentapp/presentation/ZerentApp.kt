@@ -30,29 +30,26 @@ import androidx.navigation.navArgument
 import com.example.zerentapp.R
 import com.example.zerentapp.navigation.NavigationItem
 import com.example.zerentapp.navigation.Screen
-
 import com.example.zerentapp.presentation.screen.BantuanScreen
-
-import com.example.zerentapp.presentation.screen.Check
-import com.example.zerentapp.presentation.screen.CheckScreen
+import com.example.zerentapp.presentation.screen.Detail.Check
+import com.example.zerentapp.presentation.screen.Detail.CheckScreen
 import com.example.zerentapp.presentation.screen.DetailScreen
 import com.example.zerentapp.presentation.screen.FiturResult
-
 import com.example.zerentapp.presentation.screen.HomeScreen
+import com.example.zerentapp.presentation.screen.Katalog.ResultScreen
 import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
-import com.example.zerentapp.presentation.screen.PostingProductScreen
+import com.example.zerentapp.presentation.screen.PostingProduct.PostingProductScreen
 import com.example.zerentapp.presentation.screen.Profil.Profile
 import com.example.zerentapp.presentation.screen.Profil.ProfileSetting
 import com.example.zerentapp.presentation.screen.Request.RequestScreen
-import com.example.zerentapp.presentation.screen.Request.RequestViewModel
 import com.example.zerentapp.presentation.screen.Request.Requestform
+import com.example.zerentapp.presentation.screen.Request.doneUploadScreens
 import com.example.zerentapp.presentation.screen.TokoScreen
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
-import com.example.zerentapp.presentation.screen.Request.doneUploadScreens
 import com.example.zerentapp.utils.shouldShowBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -108,7 +105,7 @@ fun ZerentApp(
                 Order(navController)
             }
             composable(Screen.About.route){
-                ProfileScreen(navController)
+                Profile(navController)
             }
 
             composable(Screen.ProfileSetting.route){
@@ -142,7 +139,7 @@ fun ZerentApp(
                 doneUploadScreens(navController)
             }
             composable(Screen.Request2.route){
-                Request2Screen(navController)
+                Requestform(navController)
             }
             composable(Screen.Detail.route + "/{detailId}",
                 arguments = listOf(navArgument("detailId") { type = NavType.IntType })
