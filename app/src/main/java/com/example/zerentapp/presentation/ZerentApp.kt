@@ -43,6 +43,7 @@ import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
+import com.example.zerentapp.presentation.screen.Order.Log
 import com.example.zerentapp.presentation.screen.PostingProductScreen
 import com.example.zerentapp.presentation.screen.Profil.Profile
 import com.example.zerentapp.presentation.screen.Profil.ProfileSetting
@@ -66,6 +67,7 @@ fun ZerentApp(
 
 
     Scaffold (
+
         bottomBar = {
             AnimatedVisibility(
                 visible = currentRoute.shouldShowBottomBar()
@@ -147,6 +149,9 @@ fun ZerentApp(
             }
             composable(Screen.ChatDetail.route){
                 ChatDetail()
+            }
+            composable(Screen.Log.route){
+                Log(navController)
             }
             composable(Screen.Detail.route + "/{detailId}",
                 arguments = listOf(navArgument("detailId") { type = NavType.IntType })
