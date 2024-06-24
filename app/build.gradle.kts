@@ -109,4 +109,6 @@ dependencies {
 
     //Date
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
+
+    implementation("io.coil-kt:coil-svg:2.6.0")
 }
