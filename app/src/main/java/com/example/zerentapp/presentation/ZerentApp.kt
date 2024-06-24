@@ -150,6 +150,15 @@ fun ZerentApp(
                 )
 
             }
+//            composable(Screen.Detail.route + "/{detailId}",
+//                arguments = listOf(navArgument("detailId") { type = NavType.IntType })
+//            ) { navBackStackEntry ->
+//                DetailScreen(
+//                    navController = navController,
+//                    detailId = navBackStackEntry.arguments?.getInt("detailId"),
+//                )
+//
+//            }
         }
 
     }

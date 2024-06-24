@@ -1,8 +1,6 @@
 package com.example.zerentapp.presentation.screen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,6 +32,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,17 +47,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.zerentapp.R
-import com.example.zerentapp.presentation.component.SearchBar
-import com.example.zerentapp.ui.theme.color1
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.LaunchedEffect
-import androidx.navigation.Navigation
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.presentation.component.ProductCard
+import com.example.zerentapp.presentation.component.SearchBar
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
+import com.example.zerentapp.ui.theme.color1
 import com.example.zerentapp.ui.theme.poppinsFontFamily
 import kotlinx.coroutines.delay
 
@@ -64,8 +65,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeScreen(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier ,
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
+    val products by viewModel.products.collectAsState()
     Scaffold {
         LazyColumn(
             modifier = Modifier
@@ -90,7 +93,7 @@ fun HomeScreen(
                     }
                     Spacer(modifier = Modifier.width(15.dp))
                     Text(
-                        text = "Selamat Datang, MJ!",
+                        text = "Selamat Datang, Hendra!",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         modifier = Modifier.padding(top = 10.dp)
@@ -274,9 +277,9 @@ fun HomeScreen(
                     LazyRow(
                     ) {
                         items(
-                            items = barangs,
-                            itemContent = {
-                                ProductCard(navController = navController, dBarang = it)
+                            items = products,
+                            itemContent = {product ->
+                                ProductCard(navController = navController,product)
                                 Spacer(modifier = Modifier.width(10.dp))
                             }
                         )
@@ -311,9 +314,9 @@ fun HomeScreen(
                     LazyRow(
                     ) {
                         items(
-                            items = barangs,
-                            itemContent = {
-                                ProductCard(navController = navController, dBarang = it)
+                            items = products,
+                            itemContent = {product ->
+                                ProductCard(navController = navController,product)
                                 Spacer(modifier = Modifier.width(10.dp))
                             }
                         )
