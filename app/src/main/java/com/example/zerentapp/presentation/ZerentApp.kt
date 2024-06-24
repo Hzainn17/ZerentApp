@@ -43,15 +43,17 @@ import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
-import com.example.zerentapp.presentation.screen.PostingProductScreen
+// import com.example.zerentapp.presentation.screen.PostingProduct
 import com.example.zerentapp.presentation.screen.ProfileScreen
 
 import com.example.zerentapp.presentation.screen.ProfileSetting
 import com.example.zerentapp.presentation.screen.Request2Screen
 import com.example.zerentapp.presentation.screen.RequestScreen
-import com.example.zerentapp.presentation.screen.TokoScreen
+import com.example.zerentapp.presentation.screen.Toko.TokoScreen
 
 import com.example.zerentapp.presentation.screen.Katalog.ResultScreen
+import com.example.zerentapp.presentation.screen.PostingProduct.PostingProductScreen
+
 
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
@@ -82,7 +84,7 @@ fun ZerentApp(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Onboarding.route,
+            startDestination = Screen.Home.route,
             modifier = modifier.padding(contentPadding)
         ) {
             composable(Screen.Onboarding.route){

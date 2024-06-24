@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -109,4 +110,13 @@ dependencies {
 
     //Date
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
+
+
+    //Load Image
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+//    //firestorage
+//    implementation ("com.google.firebase:firebase-storage-ktx:20.0.0")
+
+
 }
