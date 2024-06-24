@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -31,15 +30,15 @@ import androidx.navigation.navArgument
 import com.example.zerentapp.R
 import com.example.zerentapp.navigation.NavigationItem
 import com.example.zerentapp.navigation.Screen
+
 import com.example.zerentapp.presentation.screen.BantuanScreen
-import com.example.zerentapp.presentation.screen.ChatDetail
-import com.example.zerentapp.presentation.screen.ChatListScreen
-import com.example.zerentapp.presentation.screen.Detail.Check
-import com.example.zerentapp.presentation.screen.Detail.CheckScreen
+
+import com.example.zerentapp.presentation.screen.Check
+import com.example.zerentapp.presentation.screen.CheckScreen
 import com.example.zerentapp.presentation.screen.DetailScreen
 import com.example.zerentapp.presentation.screen.FiturResult
+
 import com.example.zerentapp.presentation.screen.HomeScreen
-import com.example.zerentapp.presentation.screen.Katalog.ResultScreen
 import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
@@ -60,8 +59,7 @@ import com.example.zerentapp.utils.shouldShowBottomBar
 @Composable
 fun ZerentApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    viewModel: RequestViewModel = hiltViewModel(),
+    navController: NavHostController = rememberNavController()
 ) {
     val navBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStack?.destination?.route
@@ -81,7 +79,7 @@ fun ZerentApp(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Onboarding.route,
             modifier = modifier.padding(contentPadding)
         ) {
             composable(Screen.Onboarding.route){
@@ -109,9 +107,10 @@ fun ZerentApp(
             composable(Screen.Order.route){
                 Order(navController)
             }
-            composable(Screen.About.route) {
-                Profile(navController)
+            composable(Screen.About.route){
+                ProfileScreen(navController)
             }
+
             composable(Screen.ProfileSetting.route){
                 ProfileSetting(navController)
             }
@@ -143,13 +142,7 @@ fun ZerentApp(
                 doneUploadScreens(navController)
             }
             composable(Screen.Request2.route){
-                Requestform(navController)
-            }
-            composable(Screen.Chat.route){
-                ChatListScreen(navController)
-            }
-            composable(Screen.ChatDetail.route){
-                ChatDetail()
+                Request2Screen(navController)
             }
             composable(Screen.Detail.route + "/{detailId}",
                 arguments = listOf(navArgument("detailId") { type = NavType.IntType })
@@ -158,8 +151,10 @@ fun ZerentApp(
                     navController = navController,
                     detailId = navBackStackEntry.arguments?.getInt("detailId"),
                 )
+
             }
         }
+
     }
 }
 
@@ -175,6 +170,7 @@ fun BottomBar(
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
         val navigationItems = listOf(
             NavigationItem(
                 title = "Home",

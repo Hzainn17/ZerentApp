@@ -113,4 +113,13 @@ dependencies {
     //sharedpreference
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.datastore:datastore-preferences-core:1.1.1")
+
+
+    //Load Image
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+//    //firestorage
+//    implementation ("com.google.firebase:firebase-storage-ktx:20.0.0")
+
+
 }
