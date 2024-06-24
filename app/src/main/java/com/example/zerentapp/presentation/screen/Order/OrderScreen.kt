@@ -22,19 +22,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,6 +66,8 @@ import com.example.zerentapp.model.Status
 import com.example.zerentapp.presentation.screen.Order.Order
 import com.example.zerentapp.presentation.screen.Order.OrderViewModel
 import com.example.zerentapp.presentation.screen.Order.ToolKit.OrderSearch
+import com.example.zerentapp.presentation.screen.Order.ToolKit.RantingBarOrder
+import com.example.zerentapp.ui.theme.color1
 
 val garis = Color(android.graphics.Color.parseColor("#323232"))
 val biggaris = Color(android.graphics.Color.parseColor("#E9F5FE"))
@@ -96,7 +103,7 @@ fun StatusScreen(status: MutableState<Status>) {
         .background(color = biggaris)
     ) {
     }
-        OrderSearch()
+    OrderSearch()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -151,7 +158,7 @@ fun StatusSelection(
                                 fontSize = 14.sp,
                                 color = if (currentStatus.value == status) Color.White else Color.Black,
                                 fontWeight = if (currentStatus.value == status) FontWeight.Bold else FontWeight.Medium ,
-                                )
+                            )
                         }
                     }
                 }
@@ -174,10 +181,13 @@ fun StatusSection(
             .padding(vertical = 8.dp)
 
     ) {
+
         LazyColumn {
             items(rentals) { product ->
-                BarangCard(product)
+                BarangCard(product, navController = rememberNavController())
+
             }
+
         }
     }
 }
@@ -186,8 +196,12 @@ fun StatusSection(
 fun BarangCard(
     product: Order,
     viewModel: OrderViewModel = hiltViewModel(),
-    ) {
+    navController: NavHostController,
+) {
     val isSelected = remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
+    val rating = remember { mutableStateOf(product.productRanting) }
+    var text by remember { mutableStateOf("") }
     val context = LocalContext.current
     val imageLoader = createImageLoader(context)
     Card(
@@ -209,12 +223,12 @@ fun BarangCard(
             ),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFFFFFF),
-            )
+        )
     ) {
         Column(
             modifier = Modifier
                 .padding(10.dp)
-               ) {
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -317,12 +331,12 @@ fun BarangCard(
                         .padding(end = 8.dp)
                         .offset(y = -5.dp)
                 ) {
-                if (product.rentalStatus == "digunakan"){
-                    Text(
-                        text = "Lapor kerusakan",
-                        modifier = Modifier
-                            .padding(horizontal = 10.dp,)
-                            .clip(RoundedCornerShape(10.dp))
+                    if (product.rentalStatus == "digunakan"){
+                        Text(
+                            text = "Lapor kerusakan",
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp,)
+                                .clip(RoundedCornerShape(10.dp))
 //                            .clickable {
 //                                isSelected.value = !isSelected.value
 //                                if (product.rentalStatus == "pending") {
@@ -331,64 +345,6 @@ fun BarangCard(
 //                                    viewModel.updateProductStatus(product.id, "selesai")
 //                                }
 //                            }
-                            .background(
-                                if (isSelected.value) {
-                                    Color(0xFFFFFFFF)
-                                } else {
-                                    Color(0xFF043C5B)
-                                }
-                            )
-                            .border(
-                                width = 1.5.dp,
-                                shape = RoundedCornerShape(10.dp),
-                                color = if (isSelected.value) Color(
-                                    0xFF043C5B
-                                ) else Color(
-                                    0xFF043C5B
-                                )
-                            )
-                            .padding(10.dp),
-                        fontSize = 14.sp,
-                        color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
-                        fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
-
-                        )
-                } else {
-                    AsyncImage(
-                        model = "https://example.com/test-image.jpg", // Use a simple test image URL
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
-                            .size(height = 35.dp, width = 35.dp)
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 10.dp, top = 7.dp),
-                        text = "Toko Serba Ada",
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-
-                    Row {
-                        Text(
-//                            text = "${barang.button_action}",
-                            text = if (product.rentalStatus == "pending") {
-                                "konfirmasi"
-                            } else if (product.rentalStatus == "digunakan") {
-                                "pengembalian" } else { "beri rating"},
-                            modifier = Modifier
-
-                                .padding(horizontal = 10.dp,)
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable {
-                                    isSelected.value = !isSelected.value
-                                    if (product.rentalStatus == "pending") {
-                                        viewModel.updateProductStatus(product.id, "digunakan")
-                                    } else if (product.rentalStatus == "digunakan") {
-                                        viewModel.updateProductStatus(product.id, "selesai")
-                                    }
-                                }
                                 .background(
                                     if (isSelected.value) {
                                         Color(0xFFFFFFFF)
@@ -412,13 +368,213 @@ fun BarangCard(
                             fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium,
 
                             )
+                    } else {
+                        AsyncImage(
+                            model = "https://example.com/test-image.jpg",
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(16.dp))
+                                .size(height = 35.dp, width = 35.dp)
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 10.dp, top = 7.dp),
+                            text = "Toko Serba Ada",
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Row {
+                        Text(
+                            text = if (product.rentalStatus == "pending") {
+                                "konfirmasi"
+                            } else if (product.rentalStatus == "digunakan") {
+                                "pengembalian"} else {"beri rating"},
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    isSelected.value = !isSelected.value
+                                    showDialog.value = true
+                                }
+                                .background(
+                                    if (isSelected.value) Color(0xFFFFFFFF) else Color(0xFF043C5B)
+                                )
+                                .border(
+                                    width = 1.5.dp,
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = Color(0xFF043C5B)
+                                )
+                                .padding(10.dp),
+                            fontSize = 14.sp,
+                            color = if (isSelected.value) Color(0xFF043C5B) else Color.White,
+                            fontWeight = if (isSelected.value) FontWeight.Bold else FontWeight.Medium
+                        )
                     }
 
+                    if (showDialog.value) {
+                        AlertDialog(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(5.dp)),
+                            shape = RoundedCornerShape(
+                                topEnd = 10.dp,
+                                topStart = 10.dp,
+                                bottomEnd = 10.dp,
+                                bottomStart = 10.dp, ),
+                            onDismissRequest = { showDialog.value = false },
+                            confirmButton = {
+                                Button(
+                                    modifier = Modifier
+                                        .padding(top = 90.dp)
+                                        .padding(end = 20.dp, start = 20.dp)
+                                        .clip(
+                                            RoundedCornerShape(
+                                                5.dp
+                                            )
+                                        )
+                                        .background(color1)
+
+                                        .size(width = 230.dp, height = 35.dp)
+                                    ,
+
+                                    shape = RoundedCornerShape(
+                                        topEnd = 5.dp,
+                                        topStart = 5.dp,
+                                        bottomEnd = 5.dp,
+                                        bottomStart = 5.dp, ),
+                                    onClick = {
+                                        if (product.rentalStatus == "pending") {
+                                            viewModel.updateProductStatus(product.id, "digunakan")
+                                        } else if (product.rentalStatus == "digunakan") {
+                                            viewModel.updateProductStatus(
+                                                product.id,
+                                                "selesai"
+                                            )
+                                        } else {
+                                            product.productRanting = rating.value
+                                            viewModel.updateProductStatus(
+                                                product.id,
+                                                "selesai"
+                                            )
+                                        }
+                                        showDialog.value = false
+
+                                    }
+
+                                ) {
+                                    Text(
+                                        color = Color.White,
+                                        text= "Konfirmasi",)
+                                }
+                            },
+//                            dismissButton = {
+//                                TextButton(
+//                                    onClick = { showDialog.value = false }
+//                                ) {
+//                                    Text("Cancel")
+//                                }
+//                            },
+
+                            text = {
+                                Row(
+                                    modifier = Modifier
+                                        .padding(horizontal = 20.dp)
+                                    ,
+                                    horizontalArrangement = Arrangement.Absolute.spacedBy(300.dp)){
+                                    Box{
+                                        if (product.rentalStatus == "pending") {
+                                            Column(modifier = Modifier
+                                                .padding(start = 25.dp)){
+                                                Text(
+                                                    text = "Konfirmasi",
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 20.sp,
+                                                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 15.dp)
+                                                )
+                                                Text("Ingin  Mensewah Barang ?")
+                                            }
+                                        } else if (product.rentalStatus == "digunakan") {
+                                            Column(modifier = Modifier
+                                                .padding(start = 25.dp)){
+                                                Text(
+                                                    text = "Pengembalian",
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 20.sp,
+                                                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp)
+                                                )
+                                                Text(
+                                                    text = "Apa Anda Yakin ?",
+                                                    modifier = Modifier.padding(horizontal = 30.dp)
+                                                )
+                                            }
+                                        } else {
+                                            Text(
+                                                text = "Beri Rating",
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 20.sp,
+                                                modifier = Modifier
+                                                    .padding(horizontal = 60.dp, vertical = 15.dp)
+                                                    .height(300.dp)
+                                            )
+                                            RantingBarOrder(rating = rating)
+                                            Row(
+                                                modifier = Modifier
+
+                                                ,
+                                            ) {
+                                                Column{
+                                                    TextField(
+                                                        value = text,
+                                                        onValueChange = { text = it },
+                                                        label = { Text("Beri Kami Alasan Nya") },
+                                                        modifier = Modifier
+                                                            .offset(y = 155.dp)
+                                                            .border(
+                                                                2.dp,
+                                                                Color.Black,
+                                                                RoundedCornerShape(5.dp)
+                                                            )
+                                                            .size(height = 220.dp, width = 300.dp),
+                                                        shape =RoundedCornerShape(
+                                                            topEnd = 5.dp,
+                                                            topStart = 5.dp,
+                                                            bottomEnd = 5.dp,
+                                                            bottomStart = 5.dp, ),
+                                                        colors = OutlinedTextFieldDefaults.colors(
+                                                            cursorColor = Color.Black,
+                                                            focusedBorderColor = Color.Transparent,
+                                                            unfocusedBorderColor = Color.Transparent,
+                                                            disabledBorderColor = Color.Transparent,
+                                                            errorBorderColor = Color.Transparent
+                                                        )
+
+                                                    )
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+                                    Column {
+
+                                    }
+                                }
+
+
+                            }
+                        )
+                    }
                 }
+
+
             }
         }
     }
 }
+
+
+
 
 @Composable
 fun Order(navController: NavHostController) {

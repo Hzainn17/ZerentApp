@@ -9,11 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 
 data class Detail(
+    val id: String = "",
     val productDesc: String = "",
     val productDistance: String = "",
     val productImage: String = "",
@@ -60,9 +61,23 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun fetchProducts() {
+        viewModelScope.launch {
+            firestore.collection("products").get()
+                .addOnSuccessListener { result ->
+                    val productList = result.documents.mapNotNull { document ->
+                        document.toObject(Detail::class.java)?.copy(id = document.id)
+                    }
+                    _products.value = productList
+                }
+                .addOnFailureListener { exception ->
+                }
+        }
+    }
+
+   fun fetchProductsDetail(id: String) {
         val documentId = "C2RWfuFWiXYPv5Hzuuev"
         viewModelScope.launch {
-            firestore.collection("products").document(documentId).get()
+            firestore.collection("products").document(id).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val product = document.toObject(Detail::class.java)

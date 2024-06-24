@@ -90,7 +90,7 @@ fun RequestScreen(
                     top = it.calculateTopPadding() + 16.dp,
                     start = 16.dp,
                     end = 16.dp,
-                    bottom = 16.dp
+                    bottom = 16.dp,
                 )
         ) {
             LazyColumn {
@@ -165,7 +165,7 @@ fun RequestCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.productskateboard),
+                    painter = painterResource(id = R.drawable.lucas),
                     contentDescription = "image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -259,7 +259,7 @@ fun RequestCard(
                 }
 
                 Image(
-                    painter = painterResource(id = R.drawable.lucas),
+                    painter = painterResource(id = R.drawable.productskateboard),
                     contentDescription = null,
                     modifier = Modifier.size(77.dp)
                 )

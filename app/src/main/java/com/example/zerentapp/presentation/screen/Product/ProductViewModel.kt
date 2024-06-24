@@ -1,7 +1,10 @@
-package com.example.zerentapp.presentation.screen.Katalog
+package com.example.zerentapp.presentation.screen.Product
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.zerentapp.presentation.screen.Order.Order
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +23,7 @@ data class Product(
 )
 
 @HiltViewModel
-class BarangViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : ViewModel() {
     private val _barangs = MutableStateFlow<List<Product>>(emptyList())

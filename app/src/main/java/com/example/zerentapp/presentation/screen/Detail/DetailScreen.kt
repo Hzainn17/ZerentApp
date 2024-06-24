@@ -1,6 +1,7 @@
 package com.example.zerentapp.presentation.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.rounded.Star
@@ -31,7 +31,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,17 +43,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.zerentapp.R
+import coil.size.Size
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.model.dUlasan
@@ -62,8 +61,8 @@ import com.example.zerentapp.navigation.Screen
 import com.example.zerentapp.presentation.component.UlasanScreen
 import com.example.zerentapp.presentation.screen.Detail.Detail
 import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
-import com.example.zerentapp.presentation.screen.Detail.ToolKit.HeaderDetail
 import com.example.zerentapp.presentation.screen.Detail.ToolKit.PopingButton
+import createImageLoader
 
 
 @Composable
@@ -133,6 +132,8 @@ fun DetailCard(
     scrollState: ScrollState = rememberScrollState(),
     viewModel: DetailViewModel = hiltViewModel(),) {
     var rating by remember { mutableStateOf(0.0) }
+    val context = LocalContext.current
+    val imageLoader = createImageLoader(context)
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -190,27 +191,39 @@ fun DetailCard(
                     .padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                Row {
-                    IconButton(onClick = {navController.navigate(Screen.Home.route)}) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = stringResource(id = R.string.menu_back)
-                        )
-                    }
-                    HeaderDetail()
-                }
+//                Row {
+//                    IconButton(onClick = {navController.navigate(Screen.Home.route)}) {
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowBackIos,
+//                            contentDescription = stringResource(id = R.string.menu_back)
+//                        )
+//                    }
+//                    HeaderDetail()
+//                }
                 Box(
                     modifier = Modifier,
                     contentAlignment = Alignment.Center
                 ) {
-                    AsyncImage(
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(context)
+                                .data(detail.productImage)
+                                .size(Size.ORIGINAL)
+                                .build(),
+                            imageLoader = imageLoader),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(width = 400.dp, height = 300.dp),
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(data = detailList[0].foto)
-                            .build(),
-                        contentDescription = "Foto Barang"
                     )
+//                    AsyncImage(
+//                        modifier = Modifier
+//                            .size(width = 400.dp, height = 300.dp),
+//                        model = ImageRequest.Builder(LocalContext.current)
+//                            .data(data = detailList[0].foto)
+//                            .build(),
+//                        contentDescription = "Foto Barang"
+//                    )
                 }
 
                 //Detail

@@ -19,6 +19,7 @@ data class Order(
     val rentalEndDate: String = "",
     val rentalStartDate: String = "",
     val rentalDuration: Int = 0,
+    var productRanting: String = "",
 )
 
 @HiltViewModel

@@ -40,20 +40,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.zerentapp.R
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.example.zerentapp.model.dBarang
+import com.example.zerentapp.presentation.screen.Detail.Detail
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
 import com.example.zerentapp.ui.theme.color1
 import com.example.zerentapp.ui.theme.colorBintang
+import createImageLoader
 
 @Composable
 fun ProductCard(
     navController: NavController,
-    dBarang: dBarang
+    product: Detail,
+    //dBarang: dBarang,
+    viewModel: DetailViewModel = hiltViewModel(),
+
 ) {
+    val context = LocalContext.current
+    val imageLoader = createImageLoader(context)
     Card(
         modifier = Modifier
             .width(170.dp)
@@ -66,7 +76,10 @@ fun ProductCard(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable {navController.navigate("detail/${dBarang.id}") },
+                .clickable {
+                    viewModel.fetchProductsDetail(product.id)
+                    navController.navigate("detail/1")
+                           },
         ) {
             Column(
                 modifier = Modifier
@@ -85,12 +98,24 @@ fun ProductCard(
                         .fillMaxWidth()
                 ) {
                     Image(
-                        painter = painterResource(id = dBarang.foto),
-                        contentDescription = "Foto Produk",
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(context)
+                                .data(product.productImage)
+                                .size(Size.ORIGINAL)
+                                .build(),
+                            imageLoader = imageLoader),
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize(),
                     )
+//                    Image(
+//                        painter = painterResource(id = dBarang.foto),
+//                        contentDescription = "Foto Produk",
+//                        contentScale = ContentScale.Crop,
+//                        modifier = Modifier
+//                            .fillMaxSize(),
+//                    )
 
                     IconButton(
                         onClick = { /* Tambahkan aksi yang ingin dilakukan saat ikon diklik */ },
@@ -123,7 +148,7 @@ fun ProductCard(
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Text(
-                        text = dBarang.nama,
+                        text = product.productName,
                         fontWeight = FontWeight.Bold,
                         fontSize = 13.sp,
                         modifier = Modifier.padding(bottom = 4.dp)
@@ -141,7 +166,7 @@ fun ProductCard(
                         )
                         Spacer(modifier = Modifier.width(2.dp))
                         Text(
-                            text = dBarang.lokasi,
+                            text = "Tanjungpinang",
                             fontSize = 12.sp,
                             overflow = TextOverflow.Ellipsis,
                             color = Color.DarkGray
@@ -161,7 +186,7 @@ fun ProductCard(
                         contentPadding = PaddingValues(0.dp) // Atur padding untuk memastikan teks berada di tengah
                     ) {
                         Text(
-                            text = dBarang.category,
+                            text = "Elektronik",
                             fontSize = 10.sp,
                             color = Color.Black,
                             textAlign = TextAlign.Center,
@@ -188,7 +213,7 @@ fun ProductCard(
 
                         Spacer(modifier = Modifier.height(14.dp))
                         Text(
-                            text = "Rp${dBarang.harga}/hari",
+                            text = "Rp${product.productHarga}/hari",
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
                             modifier = Modifier.padding()
@@ -204,6 +229,8 @@ fun ProductCard(
 fun ProductWhislist(
     dBarang: dBarang
 ) {
+//    val context = LocalContext.current
+//    val imageLoader = createImageLoader(context)
     Card(
         modifier = Modifier
             .width(170.dp)
@@ -349,18 +376,18 @@ fun ProductWhislist(
 }
 
 
-@Preview (showBackground = true)
-@Composable
-private fun productCardPrev() {
-    ProductCard(navController = NavController(LocalContext.current), dBarang = dBarang(
-        0,
-        "Kamera EOS 3000D",
-        "Hobi",
-        "125000",
-        "Rental cosplay costume mu dengan mudah dan cepat disini.",
-        "Batam",
-        R.drawable.canon3000d
-
-    ))
-}
+//@Preview (showBackground = true)
+//@Composable
+//private fun productCardPrev() {
+//    ProductCard(navController = NavController(LocalContext.current), dBarang = dBarang(
+//        0,
+//        "Kamera EOS 3000D",
+//        "Hobi",
+//        "125000",
+//        "Rental cosplay costume mu dengan mudah dan cepat disini.",
+//        "Batam",
+//        R.drawable.canon3000d
+//
+//    ))
+//}
 

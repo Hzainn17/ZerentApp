@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -32,8 +31,6 @@ import com.example.zerentapp.R
 import com.example.zerentapp.navigation.NavigationItem
 import com.example.zerentapp.navigation.Screen
 import com.example.zerentapp.presentation.screen.BantuanScreen
-import com.example.zerentapp.presentation.screen.ChatDetail
-import com.example.zerentapp.presentation.screen.ChatListScreen
 import com.example.zerentapp.presentation.screen.Detail.Check
 import com.example.zerentapp.presentation.screen.Detail.CheckScreen
 import com.example.zerentapp.presentation.screen.DetailScreen
@@ -44,24 +41,22 @@ import com.example.zerentapp.presentation.screen.KategoriScreen
 import com.example.zerentapp.presentation.screen.Login.Login
 import com.example.zerentapp.presentation.screen.Login.Register
 import com.example.zerentapp.presentation.screen.OnBoardingScreen
-import com.example.zerentapp.presentation.screen.PostingProductScreen
+import com.example.zerentapp.presentation.screen.PostingProduct.PostingProductScreen
 import com.example.zerentapp.presentation.screen.Profil.Profile
 import com.example.zerentapp.presentation.screen.Profil.ProfileSetting
 import com.example.zerentapp.presentation.screen.Request.RequestScreen
-import com.example.zerentapp.presentation.screen.Request.RequestViewModel
 import com.example.zerentapp.presentation.screen.Request.Requestform
+import com.example.zerentapp.presentation.screen.Request.doneUploadScreens
 import com.example.zerentapp.presentation.screen.TokoScreen
 import com.example.zerentapp.presentation.screen.VerifEmail
 import com.example.zerentapp.presentation.screen.WhishlistScreen
-import com.example.zerentapp.presentation.screen.Request.doneUploadScreens
 import com.example.zerentapp.utils.shouldShowBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ZerentApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    viewModel: RequestViewModel = hiltViewModel(),
+    navController: NavHostController = rememberNavController()
 ) {
     val navBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStack?.destination?.route
@@ -81,7 +76,7 @@ fun ZerentApp(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Onboarding.route,
             modifier = modifier.padding(contentPadding)
         ) {
             composable(Screen.Onboarding.route){
@@ -109,9 +104,10 @@ fun ZerentApp(
             composable(Screen.Order.route){
                 Order(navController)
             }
-            composable(Screen.About.route) {
+            composable(Screen.About.route){
                 Profile(navController)
             }
+
             composable(Screen.ProfileSetting.route){
                 ProfileSetting(navController)
             }
@@ -145,12 +141,6 @@ fun ZerentApp(
             composable(Screen.Request2.route){
                 Requestform(navController)
             }
-            composable(Screen.Chat.route){
-                ChatListScreen(navController)
-            }
-            composable(Screen.ChatDetail.route){
-                ChatDetail()
-            }
             composable(Screen.Detail.route + "/{detailId}",
                 arguments = listOf(navArgument("detailId") { type = NavType.IntType })
             ) { navBackStackEntry ->
@@ -158,8 +148,19 @@ fun ZerentApp(
                     navController = navController,
                     detailId = navBackStackEntry.arguments?.getInt("detailId"),
                 )
+
             }
+//            composable(Screen.Detail.route + "/{detailId}",
+//                arguments = listOf(navArgument("detailId") { type = NavType.IntType })
+//            ) { navBackStackEntry ->
+//                DetailScreen(
+//                    navController = navController,
+//                    detailId = navBackStackEntry.arguments?.getInt("detailId"),
+//                )
+//
+//            }
         }
+
     }
 }
 
@@ -175,6 +176,7 @@ fun BottomBar(
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
         val navigationItems = listOf(
             NavigationItem(
                 title = "Home",

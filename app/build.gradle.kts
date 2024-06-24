@@ -33,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -53,8 +53,26 @@ android {
     buildToolsVersion = "34.0.0"
 }
 
-dependencies {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf(
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"
+    ))
+}
+
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -73,44 +91,44 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
-    //navigation
+    // navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    //splash
-    implementation ("androidx.core:core-splashscreen:1.0.0-beta02")
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
     // Extended Icons
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
-
-    //navigasi
+    // navigation
     val nav_version = "2.7.7"
-
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-
     implementation("io.coil-kt:coil-compose:2.6.0")
-    implementation ("io.coil-kt:coil-svg:2.1.0")
+    implementation("io.coil-kt:coil-svg:2.1.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
-    //hilt
+    // hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    //googleauth
+    // google auth
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
-    //firestore
+    // firestore
     implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation(libs.firebase.storage.ktx)
 
-    //Date
+    // Date
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
 
-    //sharedpreference
+    // shared preference
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.datastore:datastore-preferences-core:1.1.1")
+
+    // Load Image
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }

@@ -16,6 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,11 +26,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.zerentapp.data.Data
 import com.example.zerentapp.model.dBarang
 import com.example.zerentapp.presentation.component.ProductCard
 import com.example.zerentapp.presentation.component.SearchBar
+import com.example.zerentapp.presentation.screen.Detail.DetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -36,9 +40,11 @@ import com.example.zerentapp.presentation.component.SearchBar
 fun ResultScreen(
     navController: NavController,
     products: List<dBarang> = Data.dataBarang,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = hiltViewModel()
 
 ) {
+    val products by viewModel.products.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -83,8 +89,8 @@ fun ResultScreen(
             columns = GridCells.Adaptive(140.dp),
             modifier = modifier.padding(top = it.calculateTopPadding() + 48.dp)
         ) {
-            items(products, key = { it.id }) {
-                ProductCard(navController = navController, dBarang = it)
+            items(products) {product ->
+                ProductCard(navController = navController,product)
             }
         }
     }
